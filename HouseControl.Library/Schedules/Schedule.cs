@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace HouseControl.Library
+{
+    public class Schedule : List<ScheduleItem>
+    {
+        public Schedule()
+        {
+            LoadScheduleFromCSV();
+            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(1), 1, DeviceCommands.On));
+            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(2), 2, DeviceCommands.On));
+            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(3), 3, DeviceCommands.On));
+        }
+
+        public void LoadScheduleFromCSV()
+        {
+            var fileName = AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.txt";
+
+            if (File.Exists(fileName))
+            {
+                var sr = new StreamReader(fileName);
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var fields = line.Split(',');
+                    var scheduleItem = new ScheduleItem()
+                    {
+                        ScheduleSet = fields[0],
+                        EventTime = DateTime.Parse(fields[1]),
+                        Device = Int32.Parse(fields[2]),
+                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[3]),
+                        IsEnabled = bool.Parse(fields[4]),
+                    };
+                    this.Add(scheduleItem);
+                }
+            }
+        }
+    }
+}
