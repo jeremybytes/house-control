@@ -15,6 +15,12 @@ namespace X10Test
             controller.SendCommand(5, DeviceCommands.On);
             controller.SendCommand(5, DeviceCommands.Off);
 
+            controller.ScheduleOneTimeItem(DateTime.Now.AddMinutes(1), 1, DeviceCommands.On);
+            controller.ScheduleOneTimeItem(DateTime.Now.AddMinutes(2), 2, DeviceCommands.On);
+            controller.ScheduleOneTimeItem(DateTime.Now.AddMinutes(3), 1, DeviceCommands.Off);
+            controller.ScheduleOneTimeItem(DateTime.Now.AddMinutes(4), 2, DeviceCommands.Off);
+
+
             Console.WriteLine("Test Completed");
             Console.ReadLine();
         }

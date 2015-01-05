@@ -23,7 +23,8 @@ namespace HouseControl.Library
         }
 
         private Timer scheduler = new Timer(60000);
-        private Schedule schedule = new Schedule();
+        private Schedule schedule = new Schedule(
+            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.txt");
 
         public HouseController()
         {
@@ -41,29 +42,46 @@ namespace HouseControl.Library
             foreach (var item in itemsToProcess)
                 SendCommand(item.Device, item.Command);
 
-            #if DEBUG
-            string logMessage = string.Format("Schedule Items Processed: {0} - "
-                + "Total Items: {1} - Active Items: {2}",
-                itemsToProcess.Count().ToString(),
+#if DEBUG
+            Console.Write("Schedule Items Processed: {0} - ",
+                itemsToProcess.Count().ToString());
+#endif
+
+            schedule.RollSchedule();
+
+#if DEBUG
+            Console.WriteLine("Total Items: {0} - Active Items: {1}",
                 schedule.Count.ToString(),
                 schedule.Count(si => si.IsEnabled));
-            Console.WriteLine(logMessage);
-            #endif
+#endif
         }
 
         private TimeSpan TimeDurationFromNow(DateTime checkTime)
         {
-            // Note: this code breaks down around 00:00 since
-            // TimeOfDay is timespan since 00:00 (regardless of date)
-            return (checkTime.TimeOfDay - DateTime.Now.TimeOfDay).Duration();
+            return (checkTime - DateTime.Now).Duration();
         }
 
         public void ResetAll()
         {
-            for(int i = 1; i <=8; i++)
+            for (int i = 1; i <= 8; i++)
             {
                 SendCommand(i, DeviceCommands.Off);
             }
+        }
+
+        public void ScheduleOneTimeItem(DateTime time, int device,
+            DeviceCommands command)
+        {
+            var scheduleItem = new ScheduleItem()
+            {
+                Device = device,
+                Command = command,
+                EventTime = time,
+                IsEnabled = true,
+                ScheduleSet = "",
+                Type = ScheduleTypes.Once,
+            };
+            schedule.Add(scheduleItem);
         }
 
         public void SendCommand(int device, DeviceCommands command)

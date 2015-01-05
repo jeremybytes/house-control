@@ -6,22 +6,13 @@ namespace HouseControl.Library
 {
     public class Schedule : List<ScheduleItem>
     {
-        public Schedule()
+        public Schedule(string filename)
         {
-            LoadScheduleFromCSV();
-
-            // These items are good for testing the system is working
-            // TODO: Figure out a way to do this with configuration / parameterization
-            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(1), 1, DeviceCommands.On));
-            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(2), 2, DeviceCommands.On));
-            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(3), 1, DeviceCommands.Off));
-            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(4), 2, DeviceCommands.Off));
+            LoadScheduleFromCSV(filename);
         }
 
-        public void LoadScheduleFromCSV()
+        private void LoadScheduleFromCSV(string fileName)
         {
-            var fileName = AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.txt";
-
             if (File.Exists(fileName))
             {
                 var sr = new StreamReader(fileName);
@@ -35,11 +26,46 @@ namespace HouseControl.Library
                         EventTime = DateTime.Parse(fields[1]),
                         Device = Int32.Parse(fields[2]),
                         Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[3]),
+                        // TODO: Parse schedule type from file at some point
+                        Type = ScheduleTypes.Daily,
                         IsEnabled = bool.Parse(fields[4]),
                     };
                     this.Add(scheduleItem);
                 }
+                RollSchedule();
             }
         }
+
+        public void RollSchedule()
+        {
+            for (int i = Count-1; i >= 0; i--)
+            {
+                var currentItem = this[i];
+                if (currentItem.EventTime < DateTime.Now)
+                {
+                    switch (currentItem.Type)
+                    {
+                        case ScheduleTypes.Daily:
+                            currentItem.EventTime = 
+                                ScheduleHelper.RollForwardToNextDay(currentItem.EventTime);
+                            break;
+                        case ScheduleTypes.Weekday:
+                            currentItem.EventTime = 
+                                ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.EventTime);
+                            break;
+                        case ScheduleTypes.Weekend:
+                            currentItem.EventTime = 
+                                ScheduleHelper.RollForwardToNextWeekendDay(currentItem.EventTime);
+                            break;
+                        case ScheduleTypes.Once:
+                            this.RemoveAt(i);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
     }
 }
