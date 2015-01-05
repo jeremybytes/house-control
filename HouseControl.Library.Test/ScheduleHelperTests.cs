@@ -95,6 +95,9 @@ namespace HouseControl.Library.Test
         [TestMethod]
         public void MondayItemInPast_OnRollDay_IsTomorrow()
         {
+            // TODO: to do really good testing on schedules
+            // we need to abstract out the "DateTime.Now"
+            // functionality.
             Assert.Fail();
         }
     }
