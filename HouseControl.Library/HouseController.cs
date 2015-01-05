@@ -22,7 +22,7 @@ namespace HouseControl.Library
             }
         }
 
-        private Timer scheduler = new Timer(30000);
+        private Timer scheduler = new Timer(60000);
         private Schedule schedule = new Schedule();
 
         public HouseController()
@@ -36,7 +36,7 @@ namespace HouseControl.Library
         {
             var itemsToProcess = schedule.Where(si =>
                 si.IsEnabled &&
-                TimeDurationFromNow(si.EventTime) < TimeSpan.FromMinutes(1));
+                TimeDurationFromNow(si.EventTime) < TimeSpan.FromSeconds(30));
 
             foreach (var item in itemsToProcess)
                 SendCommand(item.Device, item.Command);
