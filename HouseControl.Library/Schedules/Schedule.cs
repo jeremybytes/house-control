@@ -12,10 +12,10 @@ namespace HouseControl.Library
 
             // These items are good for testing the system is working
             // TODO: Figure out a way to do this with configuration / parameterization
-            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(1), 1, DeviceCommands.On));
-            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(2), 2, DeviceCommands.On));
-            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(3), 1, DeviceCommands.Off));
-            this.Add(new ScheduleItem(DateTime.Now.AddMinutes(4), 2, DeviceCommands.Off));
+            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(1), 1, DeviceCommands.On));
+            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(2), 2, DeviceCommands.On));
+            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(3), 1, DeviceCommands.Off));
+            //this.Add(new ScheduleItem(DateTime.Now.AddMinutes(4), 2, DeviceCommands.Off));
         }
 
         public void LoadScheduleFromCSV()
