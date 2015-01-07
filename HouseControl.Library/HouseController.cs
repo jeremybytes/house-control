@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 
@@ -92,5 +93,12 @@ namespace HouseControl.Library
                 DateTime.Now.ToString("G"), device.ToString(), command.ToString());
         }
 
+        public List<ScheduleItem> GetCurrentScheduleItems()
+        {
+            var result = new List<ScheduleItem>();
+            foreach (var item in schedule.Where(i => i.IsEnabled))
+                result.Add(item);
+            return result;
+        }
     }
 }

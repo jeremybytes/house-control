@@ -22,7 +22,23 @@ namespace X10Test
 
 
             Console.WriteLine("Test Completed");
-            Console.ReadLine();
+
+            string command = "";
+            while (command != "q")
+            {
+                command = Console.ReadLine();
+                if (command == "s")
+                {
+                    var schedule = controller.GetCurrentScheduleItems();
+                    foreach (var item in schedule)
+                    {
+                        Console.WriteLine("{0} - Device: {1}, Command: {2}",
+                            item.EventTime.ToString("G"), 
+                            item.Device.ToString(), 
+                            item.Command.ToString());
+                    }
+                }
+            }
         }
     }
 }

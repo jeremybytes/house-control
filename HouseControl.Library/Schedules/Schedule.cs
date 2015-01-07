@@ -23,7 +23,8 @@ namespace HouseControl.Library
                     var scheduleItem = new ScheduleItem()
                     {
                         ScheduleSet = fields[0],
-                        EventTime = DateTime.Parse(fields[1]),
+                        EventTime = DateTime.Today + 
+                                    DateTime.Parse(fields[1]).TimeOfDay,
                         Device = Int32.Parse(fields[2]),
                         Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[3]),
                         // TODO: Parse schedule type from file at some point
