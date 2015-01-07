@@ -89,7 +89,7 @@ namespace HouseControl.Library
             var message = MessageGenerator.GetMessage(device, command);
             Commander.SendCommand(message);
             Console.WriteLine("{0} - Device: {1}, Command: {2}",
-                DateTime.Now.ToString("t"), device.ToString(), command.ToString());
+                DateTime.Now.ToString("G"), device.ToString(), command.ToString());
         }
 
     }
