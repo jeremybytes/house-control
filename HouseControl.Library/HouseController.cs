@@ -38,7 +38,7 @@ namespace HouseControl.Library
         {
             var itemsToProcess = schedule.Where(si =>
                 si.IsEnabled &&
-                TimeDurationFromNow(si.EventTime) < TimeSpan.FromSeconds(30));
+                si.EventTime.DurationFromNow() < TimeSpan.FromSeconds(30));
 
             foreach (var item in itemsToProcess)
                 SendCommand(item.Device, item.Command);
@@ -55,11 +55,6 @@ namespace HouseControl.Library
                 schedule.Count.ToString(),
                 schedule.Count(si => si.IsEnabled));
 #endif
-        }
-
-        private TimeSpan TimeDurationFromNow(DateTime checkTime)
-        {
-            return (checkTime - DateTime.Now).Duration();
         }
 
         public void ResetAll()

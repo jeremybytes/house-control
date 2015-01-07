@@ -42,7 +42,7 @@ namespace HouseControl.Library
             for (int i = Count-1; i >= 0; i--)
             {
                 var currentItem = this[i];
-                if (currentItem.EventTime < DateTime.Now)
+                if (currentItem.EventTime.IsInPast())
                 {
                     switch (currentItem.Type)
                     {

@@ -6,18 +6,28 @@ using System.Threading.Tasks;
 
 namespace HouseControl.Library
 {
-    public class ScheduleHelper
+    public static class ScheduleHelper
     {
-        public static DateTime RollForwardToNextDay(DateTime currentTime)
+        public static TimeSpan DurationFromNow(this DateTime checkTime)
         {
-            if (currentTime > DateTime.Now)
-                return currentTime;
-            return DateTime.Today + TimeSpan.FromDays(1) + currentTime.TimeOfDay;
+            return (checkTime - DateTime.Now).Duration();
         }
 
-        public static DateTime RollForwardToNextWeekdayDay(DateTime currentTime)
+        public static bool IsInPast(this DateTime checkTime)
         {
-            var nextDay = RollForwardToNextDay(currentTime);
+            return checkTime < DateTime.Now;
+        }
+
+        public static DateTime RollForwardToNextDay(DateTime checkTime)
+        {
+            if (checkTime.IsInPast())
+                return DateTime.Today + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
+            return checkTime;
+        }
+
+        public static DateTime RollForwardToNextWeekdayDay(DateTime checkTime)
+        {
+            var nextDay = RollForwardToNextDay(checkTime);
             while (nextDay.DayOfWeek == DayOfWeek.Saturday
                 || nextDay.DayOfWeek == DayOfWeek.Sunday)
             {
@@ -26,9 +36,9 @@ namespace HouseControl.Library
             return nextDay;
         }
 
-        public static DateTime RollForwardToNextWeekendDay(DateTime currentTime)
+        public static DateTime RollForwardToNextWeekendDay(DateTime checkTime)
         {
-            var nextDay = RollForwardToNextDay(currentTime);
+            var nextDay = RollForwardToNextDay(checkTime);
             while (nextDay.DayOfWeek != DayOfWeek.Saturday
                 && nextDay.DayOfWeek != DayOfWeek.Sunday)
             {
