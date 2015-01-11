@@ -8,6 +8,14 @@ namespace HouseControl.Library.Test
     {
         string fileName = AppDomain.CurrentDomain.BaseDirectory + "\\ScheduleData.txt";
 
+        [TestInitialize]
+        public void Setup()
+        {
+            // Use current time provider as the default;
+            // override in individual tests if needed.
+            ScheduleHelper.TimeProvider = new CurrentTimeProvider();
+        }
+
         [TestMethod]
         public void ScheduleItems_OnCreation_IsPopulated()
         {

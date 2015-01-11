@@ -8,20 +8,40 @@ namespace HouseControl.Library
 {
     public static class ScheduleHelper
     {
+        private static ITimeProvider timeProvider;
+        public static ITimeProvider TimeProvider
+        {
+            get {
+                if (timeProvider == null)
+                    timeProvider = new CurrentTimeProvider();
+                return timeProvider; }
+            set { timeProvider = value; }
+        }
+
+        public static DateTime Now()
+        {
+            return TimeProvider.Now();
+        }
+
+        public static DateTime Today()
+        {
+            return TimeProvider.Now().Date;
+        }
+
         public static TimeSpan DurationFromNow(this DateTime checkTime)
         {
-            return (checkTime - DateTime.Now).Duration();
+            return (checkTime - TimeProvider.Now()).Duration();
         }
 
         public static bool IsInPast(this DateTime checkTime)
         {
-            return checkTime < DateTime.Now;
+            return checkTime < TimeProvider.Now();
         }
 
         public static DateTime RollForwardToNextDay(DateTime checkTime)
         {
             if (checkTime.IsInPast())
-                return DateTime.Today + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
+                return Today() + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
             return checkTime;
         }
 

@@ -23,7 +23,7 @@ namespace HouseControl.Library
                     var scheduleItem = new ScheduleItem()
                     {
                         ScheduleSet = fields[0],
-                        EventTime = DateTime.Today + 
+                        EventTime = ScheduleHelper.Today() +
                                     DateTime.Parse(fields[1]).TimeOfDay,
                         Device = Int32.Parse(fields[2]),
                         Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[3]),
@@ -39,7 +39,7 @@ namespace HouseControl.Library
 
         public void RollSchedule()
         {
-            for (int i = Count-1; i >= 0; i--)
+            for (int i = Count - 1; i >= 0; i--)
             {
                 var currentItem = this[i];
                 if (currentItem.EventTime.IsInPast())
@@ -47,15 +47,15 @@ namespace HouseControl.Library
                     switch (currentItem.Type)
                     {
                         case ScheduleTypes.Daily:
-                            currentItem.EventTime = 
+                            currentItem.EventTime =
                                 ScheduleHelper.RollForwardToNextDay(currentItem.EventTime);
                             break;
                         case ScheduleTypes.Weekday:
-                            currentItem.EventTime = 
+                            currentItem.EventTime =
                                 ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.EventTime);
                             break;
                         case ScheduleTypes.Weekend:
-                            currentItem.EventTime = 
+                            currentItem.EventTime =
                                 ScheduleHelper.RollForwardToNextWeekendDay(currentItem.EventTime);
                             break;
                         case ScheduleTypes.Once:

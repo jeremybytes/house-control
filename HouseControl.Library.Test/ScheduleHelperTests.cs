@@ -1,11 +1,27 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace HouseControl.Library.Test
 {
     [TestClass]
     public class ScheduleHelperTests
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            // Use current time provider as the default;
+            // override in individual tests with "SetCurrentTime" if needed.
+            ScheduleHelper.TimeProvider = new CurrentTimeProvider();
+        }
+
+        private static void SetCurrentTime(DateTime currentTime)
+        {
+            var mockTime = new Mock<ITimeProvider>();
+            mockTime.Setup(t => t.Now()).Returns(currentTime);
+            ScheduleHelper.TimeProvider = mockTime.Object;
+        }
+
         [TestMethod]
         public void MondayItemInFuture_OnRollDay_IsUnchanged()
         {
@@ -95,10 +111,19 @@ namespace HouseControl.Library.Test
         [TestMethod]
         public void MondayItemInPast_OnRollDay_IsTomorrow()
         {
-            // TODO: to do really good testing on schedules
-            // we need to abstract out the "DateTime.Now"
-            // functionality.
-            Assert.Fail();
+            // Arrange
+            var currentTime = new DateTime(2015, 01, 12, 16, 35, 22);
+            SetCurrentTime(currentTime);
+
+            var monday = new DateTime(2015, 01, 12, 15, 32, 00);
+            var expectedTime = new DateTime(2015, 01, 13, 15, 32, 00);
+            Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
+
+            // Act
+            var newDateTime = ScheduleHelper.RollForwardToNextDay(monday);
+
+            // Assert
+            Assert.AreEqual(expectedTime, newDateTime);
         }
     }
 }
