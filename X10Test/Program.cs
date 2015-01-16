@@ -1,4 +1,5 @@
 ﻿using HouseControl.Library;
+using HouseControl.Sunset;
 using System;
 using System.Threading;
 
@@ -8,6 +9,10 @@ namespace X10Test
     {
         static void Main(string[] args)
         {
+            var sunsetProvider = new SunriseSunsetOrg();
+            var sunset = sunsetProvider.GetSunset(DateTime.Today);
+            Console.WriteLine("Sunset Today: {0}", sunset.ToString("G"));
+
             Console.WriteLine("Starting Test");
 
             var controller = new HouseController();
