@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -15,8 +16,7 @@ namespace HouseControl.Sunset
                 client.BaseAddress = new Uri("http://api.sunrise-sunset.org/");
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
-                var apiString = string.Format("json?lat=33.8361&lng=-117.8897&date={0}-{1}-{2}",
-                    date.Year, date.Month, date.Day);
+                var apiString = string.Format("json?lat=33.8361&lng=-117.8897&date={0:yyyy-MM-dd}", date);
                 HttpResponseMessage response = client.GetAsync(apiString).Result;
 
                 if (response.IsSuccessStatusCode)
@@ -29,11 +29,9 @@ namespace HouseControl.Sunset
                         return date;
 
                     string sunsetString = contentObject.results.sunset.ToString();
-                    var utcTime = DateTime.SpecifyKind(DateTime.Parse(sunsetString), DateTimeKind.Utc);
-                    var localTime = utcTime.ToLocalTime();
-                    DateTime resultDateTime = new DateTime(date.Year, date.Month, date.Day,
-                        localTime.Hour, localTime.Minute, localTime.Second, DateTimeKind.Local);
-                    return resultDateTime;
+                    DateTime sunsetTime = DateTime.Parse(sunsetString, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                    DateTime localTime = date.Date + sunsetTime.TimeOfDay;
+                    return localTime;
                 }
                 return date;
             }
