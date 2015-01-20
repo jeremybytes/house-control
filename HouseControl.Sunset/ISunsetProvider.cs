@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace HouseControl.Sunset
 {
-    interface ISunsetProvider
+    public interface ISunsetProvider
     {
         DateTime GetSunset(DateTime date);
+        DateTime GetSunrise(DateTime date);
     }
 }

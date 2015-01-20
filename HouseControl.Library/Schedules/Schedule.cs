@@ -25,11 +25,11 @@ namespace HouseControl.Library
                         ScheduleSet = fields[0],
                         EventTime = ScheduleHelper.Today() +
                                     DateTime.Parse(fields[1]).TimeOfDay,
-                        Device = Int32.Parse(fields[2]),
-                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[3]),
-                        // TODO: Parse schedule type from file at some point
-                        Type = ScheduleTypes.Daily,
-                        IsEnabled = bool.Parse(fields[4]),
+                        TimeType = (ScheduleTimeType)Enum.Parse(typeof(ScheduleTimeType), fields[2], true),
+                        Device = Int32.Parse(fields[3]),
+                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[4]),
+                        Type = (ScheduleType)Enum.Parse(typeof(ScheduleType), fields[5], true),
+                        IsEnabled = bool.Parse(fields[6]),
                     };
                     this.Add(scheduleItem);
                 }
@@ -46,19 +46,19 @@ namespace HouseControl.Library
                 {
                     switch (currentItem.Type)
                     {
-                        case ScheduleTypes.Daily:
+                        case ScheduleType.Daily:
                             currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextDay(currentItem.EventTime);
+                                ScheduleHelper.RollForwardToNextDay(currentItem.EventTime, currentItem.TimeType);
                             break;
-                        case ScheduleTypes.Weekday:
+                        case ScheduleType.Weekday:
                             currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.EventTime);
+                                ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.EventTime, currentItem.TimeType);
                             break;
-                        case ScheduleTypes.Weekend:
+                        case ScheduleType.Weekend:
                             currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextWeekendDay(currentItem.EventTime);
+                                ScheduleHelper.RollForwardToNextWeekendDay(currentItem.EventTime, currentItem.TimeType);
                             break;
-                        case ScheduleTypes.Once:
+                        case ScheduleType.Once:
                             this.RemoveAt(i);
                             break;
                         default:

@@ -76,7 +76,7 @@ namespace HouseControl.Library.Test
                 EventTime = DateTime.Now.AddMinutes(-2),
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleTypes.Once,
+                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
             var newCount = schedule.Count;
@@ -102,7 +102,7 @@ namespace HouseControl.Library.Test
                 EventTime = DateTime.Now.AddMinutes(2),
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleTypes.Once,
+                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
             var newCount = schedule.Count;

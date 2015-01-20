@@ -30,7 +30,7 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextDay(monday);
+            var newDate = ScheduleHelper.RollForwardToNextDay(monday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -44,7 +44,7 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(monday);
+            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(monday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -59,7 +59,7 @@ namespace HouseControl.Library.Test
             DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(monday);
+            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(monday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -73,7 +73,7 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextDay(saturday);
+            var newDate = ScheduleHelper.RollForwardToNextDay(saturday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -88,7 +88,7 @@ namespace HouseControl.Library.Test
             DateTime monday = new DateTime(2020, 01, 13, 15, 32, 00);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(saturday);
+            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(saturday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -102,7 +102,7 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(saturday);
+            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(saturday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -120,7 +120,7 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
             // Act
-            var newDateTime = ScheduleHelper.RollForwardToNextDay(monday);
+            var newDateTime = ScheduleHelper.RollForwardToNextDay(monday, ScheduleTimeType.Standard);
 
             // Assert
             Assert.AreEqual(expectedTime, newDateTime);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HouseControl.Sunset;
 
 namespace HouseControl.Library
 {
@@ -11,11 +12,25 @@ namespace HouseControl.Library
         private static ITimeProvider timeProvider;
         public static ITimeProvider TimeProvider
         {
-            get {
+            get
+            {
                 if (timeProvider == null)
                     timeProvider = new CurrentTimeProvider();
-                return timeProvider; }
+                return timeProvider;
+            }
             set { timeProvider = value; }
+        }
+
+        private static ISunsetProvider sunsetProvider;
+        public static ISunsetProvider SunsetProvider
+        {
+            get
+            {
+                if (sunsetProvider == null)
+                    sunsetProvider = new SunriseSunsetOrg();
+                return sunsetProvider;
+            }
+            set { sunsetProvider = value; }
         }
 
         public static DateTime Now()
@@ -38,31 +53,42 @@ namespace HouseControl.Library
             return checkTime < TimeProvider.Now();
         }
 
-        public static DateTime RollForwardToNextDay(DateTime checkTime)
+        public static DateTime RollForwardToNextDay(DateTime checkTime,
+            ScheduleTimeType timeType)
         {
             if (checkTime.IsInPast())
-                return Today() + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
+                switch (timeType)
+                {
+                    case ScheduleTimeType.Standard:
+                        return Today() + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
+                    case ScheduleTimeType.Sunset:
+                        return SunsetProvider.GetSunset(Today() + TimeSpan.FromDays(1));
+                    case ScheduleTimeType.Sunrise:
+                        return SunsetProvider.GetSunrise(Today() + TimeSpan.FromDays(1));
+                }
             return checkTime;
         }
 
-        public static DateTime RollForwardToNextWeekdayDay(DateTime checkTime)
+        public static DateTime RollForwardToNextWeekdayDay(DateTime checkTime,
+            ScheduleTimeType timeType)
         {
-            var nextDay = RollForwardToNextDay(checkTime);
+            var nextDay = RollForwardToNextDay(checkTime, timeType);
             while (nextDay.DayOfWeek == DayOfWeek.Saturday
                 || nextDay.DayOfWeek == DayOfWeek.Sunday)
             {
-                nextDay = nextDay.AddDays(1);
+                nextDay = nextDay = nextDay.AddDays(1);
             }
             return nextDay;
         }
 
-        public static DateTime RollForwardToNextWeekendDay(DateTime checkTime)
+        public static DateTime RollForwardToNextWeekendDay(DateTime checkTime,
+            ScheduleTimeType timeType)
         {
-            var nextDay = RollForwardToNextDay(checkTime);
+            var nextDay = RollForwardToNextDay(checkTime, timeType);
             while (nextDay.DayOfWeek != DayOfWeek.Saturday
                 && nextDay.DayOfWeek != DayOfWeek.Sunday)
             {
-                nextDay = nextDay.AddDays(1);
+                nextDay = nextDay = nextDay.AddDays(1);
             }
             return nextDay;
         }

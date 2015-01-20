@@ -52,7 +52,14 @@
     <Compile Include="Commanders\SerialCommander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedules\CurrentTimeProvider.cs" />
+    <Compile Include="ScheduleTimeType.cs" />
     <Compile Include="ScheduleTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HouseControl.Sunset\HouseControl.Sunset.csproj">
+      <Project>{74fa0173-6d5f-4086-bd9b-be67be1d5788}</Project>
+      <Name>HouseControl.Sunset</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

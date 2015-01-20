@@ -75,7 +75,7 @@ namespace HouseControl.Library
                 EventTime = time,
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleTypes.Once,
+                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
         }
