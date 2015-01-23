@@ -34,9 +34,9 @@ namespace HouseControl.Library.Test
             var currentTime = DateTime.Now;
 
             // Assert
-            foreach(var item in schedule)
+            foreach (var item in schedule)
             {
-                Assert.IsTrue(item.EventTime > currentTime);
+                Assert.IsTrue(item.Info.EventTime > currentTime);
             }
         }
 
@@ -46,11 +46,11 @@ namespace HouseControl.Library.Test
             // Arrange
             var schedule = new Schedule(fileName);
             var currentTime = DateTime.Now;
-            foreach(var item in schedule)
+            foreach (var item in schedule)
             {
-                if (item.EventTime > currentTime)
-                    item.EventTime = item.EventTime - TimeSpan.FromDays(7);
-                Assert.IsTrue(item.EventTime < currentTime);
+                if (item.Info.EventTime > currentTime)
+                    item.Info.EventTime = item.Info.EventTime - TimeSpan.FromDays(7);
+                Assert.IsTrue(item.Info.EventTime < currentTime);
             }
 
             // Act
@@ -59,7 +59,7 @@ namespace HouseControl.Library.Test
             // Assert
             foreach (var item in schedule)
             {
-                Assert.IsTrue(item.EventTime > currentTime);
+                Assert.IsTrue(item.Info.EventTime > currentTime);
             }
         }
 
@@ -73,14 +73,17 @@ namespace HouseControl.Library.Test
             {
                 Device = 1,
                 Command = DeviceCommands.On,
-                EventTime = DateTime.Now.AddMinutes(-2),
+                Info = new ScheduleInfo()
+                {
+                    EventTime = DateTime.Now.AddMinutes(-2),
+                    Type = ScheduleType.Once,
+                },
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
             var newCount = schedule.Count;
-            Assert.AreEqual(originalCount+1, newCount);
+            Assert.AreEqual(originalCount + 1, newCount);
 
             // Act
             schedule.RollSchedule();
@@ -99,10 +102,13 @@ namespace HouseControl.Library.Test
             {
                 Device = 1,
                 Command = DeviceCommands.On,
-                EventTime = DateTime.Now.AddMinutes(2),
+                Info = new ScheduleInfo()
+                {
+                    EventTime = DateTime.Now.AddMinutes(2),
+                    Type = ScheduleType.Once,
+                },
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
             var newCount = schedule.Count;

@@ -38,8 +38,10 @@ namespace X10Test
                     var schedule = controller.GetCurrentScheduleItems();
                     foreach (var item in schedule)
                     {
-                        Console.WriteLine("{0} - Device: {1}, Command: {2}",
-                            item.EventTime.ToString("G"), 
+                        Console.WriteLine("{0} - {1} ({2}), Device: {3}, Command: {4}",
+                            item.Info.EventTime.ToString("G"), 
+                            item.Info.TimeType.ToString(),
+                            item.Info.RelativeOffset.ToString(),
                             item.Device.ToString(), 
                             item.Command.ToString());
                     }

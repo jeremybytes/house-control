@@ -28,9 +28,14 @@ namespace HouseControl.Library.Test
             // Arrange
             DateTime monday = new DateTime(2020, 01, 06, 15, 32, 00);
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = monday,
+                TimeType = ScheduleTimeType.Standard,
+            };
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextDay(monday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextDay(info);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -43,8 +48,14 @@ namespace HouseControl.Library.Test
             DateTime monday = new DateTime(2020, 01, 06, 15, 32, 00);
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = monday,
+                TimeType = ScheduleTimeType.Standard,
+            };
+
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(monday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(info);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -58,8 +69,14 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
             DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
 
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = monday,
+                TimeType = ScheduleTimeType.Standard,
+            };
+
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(monday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(info);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -71,9 +88,14 @@ namespace HouseControl.Library.Test
             // Arrange
             DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = saturday,
+                TimeType = ScheduleTimeType.Standard,
+            };
 
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextDay(saturday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextDay(info);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -87,8 +109,14 @@ namespace HouseControl.Library.Test
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
             DateTime monday = new DateTime(2020, 01, 13, 15, 32, 00);
 
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = saturday,
+                TimeType = ScheduleTimeType.Standard,
+            };
+
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(saturday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(info);
 
             // Assert
             Assert.AreEqual(monday, newDate);
@@ -101,8 +129,14 @@ namespace HouseControl.Library.Test
             DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
 
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = saturday,
+                TimeType = ScheduleTimeType.Standard,
+            };
+
             // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(saturday, ScheduleTimeType.Standard);
+            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(info);
 
             // Assert
             Assert.AreEqual(saturday, newDate);
@@ -119,8 +153,14 @@ namespace HouseControl.Library.Test
             var expectedTime = new DateTime(2015, 01, 13, 15, 32, 00);
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
+            ScheduleInfo info = new ScheduleInfo()
+            {
+                EventTime = monday,
+                TimeType = ScheduleTimeType.Standard,
+            };
+
             // Act
-            var newDateTime = ScheduleHelper.RollForwardToNextDay(monday, ScheduleTimeType.Standard);
+            var newDateTime = ScheduleHelper.RollForwardToNextDay(info);
 
             // Assert
             Assert.AreEqual(expectedTime, newDateTime);

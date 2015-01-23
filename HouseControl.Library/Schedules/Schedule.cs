@@ -23,13 +23,17 @@ namespace HouseControl.Library
                     var scheduleItem = new ScheduleItem()
                     {
                         ScheduleSet = fields[0],
-                        EventTime = ScheduleHelper.Today() +
-                                    DateTime.Parse(fields[1]).TimeOfDay,
-                        TimeType = (ScheduleTimeType)Enum.Parse(typeof(ScheduleTimeType), fields[2], true),
-                        Device = Int32.Parse(fields[3]),
-                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[4]),
-                        Type = (ScheduleType)Enum.Parse(typeof(ScheduleType), fields[5], true),
-                        IsEnabled = bool.Parse(fields[6]),
+                        Info = new ScheduleInfo()
+                        {
+                            EventTime = ScheduleHelper.Today() +
+                                        DateTime.Parse(fields[1]).TimeOfDay,
+                            TimeType = (ScheduleTimeType)Enum.Parse(typeof(ScheduleTimeType), fields[2], true),
+                            RelativeOffset = TimeSpan.Parse(fields[3]),
+                            Type = (ScheduleType)Enum.Parse(typeof(ScheduleType), fields[4], true),
+                        },
+                        Device = Int32.Parse(fields[5]),
+                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[6]),
+                        IsEnabled = bool.Parse(fields[7]),
                     };
                     this.Add(scheduleItem);
                 }
@@ -42,21 +46,21 @@ namespace HouseControl.Library
             for (int i = Count - 1; i >= 0; i--)
             {
                 var currentItem = this[i];
-                if (currentItem.EventTime.IsInPast())
+                if (currentItem.Info.EventTime.IsInPast())
                 {
-                    switch (currentItem.Type)
+                    switch (currentItem.Info.Type)
                     {
                         case ScheduleType.Daily:
-                            currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextDay(currentItem.EventTime, currentItem.TimeType);
+                            currentItem.Info.EventTime =
+                                ScheduleHelper.RollForwardToNextDay(currentItem.Info);
                             break;
                         case ScheduleType.Weekday:
-                            currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.EventTime, currentItem.TimeType);
+                            currentItem.Info.EventTime =
+                                ScheduleHelper.RollForwardToNextWeekdayDay(currentItem.Info);
                             break;
                         case ScheduleType.Weekend:
-                            currentItem.EventTime =
-                                ScheduleHelper.RollForwardToNextWeekendDay(currentItem.EventTime, currentItem.TimeType);
+                            currentItem.Info.EventTime =
+                                ScheduleHelper.RollForwardToNextWeekendDay(currentItem.Info);
                             break;
                         case ScheduleType.Once:
                             this.RemoveAt(i);

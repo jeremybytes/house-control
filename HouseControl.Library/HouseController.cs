@@ -38,7 +38,7 @@ namespace HouseControl.Library
         {
             var itemsToProcess = schedule.Where(si =>
                 si.IsEnabled &&
-                si.EventTime.DurationFromNow() < TimeSpan.FromSeconds(30));
+                si.Info.EventTime.DurationFromNow() < TimeSpan.FromSeconds(30));
 
             foreach (var item in itemsToProcess)
                 SendCommand(item.Device, item.Command);
@@ -72,10 +72,13 @@ namespace HouseControl.Library
             {
                 Device = device,
                 Command = command,
-                EventTime = time,
+                Info = new ScheduleInfo()
+                {
+                    EventTime = time,
+                    Type = ScheduleType.Once,
+                },
                 IsEnabled = true,
                 ScheduleSet = "",
-                Type = ScheduleType.Once,
             };
             schedule.Add(scheduleItem);
         }

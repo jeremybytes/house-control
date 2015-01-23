@@ -53,44 +53,68 @@ namespace HouseControl.Library
             return checkTime < TimeProvider.Now();
         }
 
-        public static DateTime RollForwardToNextDay(DateTime checkTime,
-            ScheduleTimeType timeType)
+        public static DateTime RollForwardToNextDay(ScheduleInfo info)
         {
-            if (checkTime.IsInPast())
-                switch (timeType)
+            if (info.EventTime.IsInPast())
+            {
+                DateTime tomorrow = Today() + TimeSpan.FromDays(1);
+                switch (info.TimeType)
                 {
                     case ScheduleTimeType.Standard:
-                        return Today() + TimeSpan.FromDays(1) + checkTime.TimeOfDay;
+                        return tomorrow + info.EventTime.TimeOfDay + info.RelativeOffset;
                     case ScheduleTimeType.Sunset:
-                        return SunsetProvider.GetSunset(Today() + TimeSpan.FromDays(1));
+                        return SunsetProvider.GetSunset(tomorrow) + info.RelativeOffset;
                     case ScheduleTimeType.Sunrise:
-                        return SunsetProvider.GetSunrise(Today() + TimeSpan.FromDays(1));
+                        return SunsetProvider.GetSunrise(tomorrow) + info.RelativeOffset;
                 }
-            return checkTime;
+            }
+            return info.EventTime;
         }
 
-        public static DateTime RollForwardToNextWeekdayDay(DateTime checkTime,
-            ScheduleTimeType timeType)
+        public static DateTime RollForwardToNextWeekdayDay(ScheduleInfo info)
         {
-            var nextDay = RollForwardToNextDay(checkTime, timeType);
-            while (nextDay.DayOfWeek == DayOfWeek.Saturday
-                || nextDay.DayOfWeek == DayOfWeek.Sunday)
+            if (info.EventTime.IsInPast())
             {
-                nextDay = nextDay = nextDay.AddDays(1);
+                var nextDay = Today() + TimeSpan.FromDays(1);
+                while (nextDay.DayOfWeek == DayOfWeek.Saturday
+                    || nextDay.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    nextDay = nextDay.AddDays(1);
+                }
+                switch (info.TimeType)
+                {
+                    case ScheduleTimeType.Standard:
+                        return nextDay + info.EventTime.TimeOfDay + info.RelativeOffset;
+                    case ScheduleTimeType.Sunset:
+                        return SunsetProvider.GetSunset(nextDay) + info.RelativeOffset;
+                    case ScheduleTimeType.Sunrise:
+                        return SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset;
+                }
             }
-            return nextDay;
+            return info.EventTime;
         }
 
-        public static DateTime RollForwardToNextWeekendDay(DateTime checkTime,
-            ScheduleTimeType timeType)
+        public static DateTime RollForwardToNextWeekendDay(ScheduleInfo info)
         {
-            var nextDay = RollForwardToNextDay(checkTime, timeType);
-            while (nextDay.DayOfWeek != DayOfWeek.Saturday
-                && nextDay.DayOfWeek != DayOfWeek.Sunday)
+            if (info.EventTime.IsInPast())
             {
-                nextDay = nextDay = nextDay.AddDays(1);
+                var nextDay = Today() + TimeSpan.FromDays(1);
+                while (nextDay.DayOfWeek != DayOfWeek.Saturday
+                    && nextDay.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    nextDay = nextDay = nextDay.AddDays(1);
+                }
+                switch (info.TimeType)
+                {
+                    case ScheduleTimeType.Standard:
+                        return nextDay + info.EventTime.TimeOfDay + info.RelativeOffset;
+                    case ScheduleTimeType.Sunset:
+                        return SunsetProvider.GetSunset(nextDay) + info.RelativeOffset;
+                    case ScheduleTimeType.Sunrise:
+                        return SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset;
+                }
             }
-            return nextDay;
+            return info.EventTime;
         }
     }
 }
