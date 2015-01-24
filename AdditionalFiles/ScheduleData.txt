@@ -1,7 +1,6 @@
 Standard,2000-01-01T00:00:00,Standard,00:00:00,Daily,4,Off,True
 Standard,2000-01-01T16:30:00,Sunset,-00:30:00,Daily,2,On,True
-Standard,2000-01-01T16:30:00,Sunset,00:00:00,Daily,2,On,True
-Standard,2000-01-01T18:30:00,Standard,00:00:00,Daily,4,On,True
+Standard,2000-01-01T18:30:00,Sunset,01:00:00,Daily,4,On,True
 Standard,2000-01-01T21:40:00,Standard,00:00:00,Daily,2,Off,True
 Standard,2000-01-01T22:15:00,Standard,00:00:00,Daily,4,On,True
 Summer,2000-01-01T11:30:00,Standard,00:00:00,Daily,6,On,False

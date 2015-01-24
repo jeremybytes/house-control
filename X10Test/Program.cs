@@ -10,8 +10,8 @@ namespace X10Test
         static void Main(string[] args)
         {
             var sunsetProvider = new SunriseSunsetOrg();
-            var sunset = sunsetProvider.GetSunset(DateTime.Today);
-            Console.WriteLine("Sunset Today: {0}", sunset.ToString("G"));
+            var sunset = sunsetProvider.GetSunset(DateTime.Today.AddDays(1));
+            Console.WriteLine("Sunset Tomorrow: {0}", sunset.ToString("G"));
 
             Console.WriteLine("Starting Test");
 

@@ -10,9 +10,13 @@ namespace HouseControl.Sunset
 {
     public class SunriseSunsetOrg : ISunsetProvider
     {
+        private static string cacheData;
+        private static DateTime cacheDate;
+
         public DateTime GetSunset(DateTime date)
         {
-            string responseContent = GetContentFromService(date).Result;
+            RefreshCache(date);
+            string responseContent = cacheData;
             string sunsetString = responseContent.GetSunsetString();
             DateTime localTime = sunsetString.GetLocalTime(date);
             return localTime;
@@ -20,10 +24,20 @@ namespace HouseControl.Sunset
 
         public DateTime GetSunrise(DateTime date)
         {
-            string responseContent = GetContentFromService(date).Result;
+            RefreshCache(date);
+            string responseContent = cacheData;
             string sunriseString = responseContent.GetSunriseString();
             DateTime localTime = sunriseString.GetLocalTime(date);
             return localTime;
+        }
+
+        private void RefreshCache(DateTime date)
+        {
+            if (cacheDate != date)
+            {
+                cacheData = GetContentFromService(date).Result;
+                cacheDate = date;
+            }
         }
 
         private static async Task<string> GetContentFromService(DateTime date)
@@ -74,7 +88,7 @@ namespace HouseControl.Sunset
         {
             if (sunsetString == null)
                 return date;
-            DateTime sunsetTime = DateTime.Parse(sunsetString, 
+            DateTime sunsetTime = DateTime.Parse(sunsetString,
                 CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             DateTime localTime = date.Date + sunsetTime.TimeOfDay;
             return localTime;
