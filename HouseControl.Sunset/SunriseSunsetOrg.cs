@@ -16,25 +16,20 @@ namespace HouseControl.Sunset
         public DateTime GetSunset(DateTime date)
         {
             RefreshCache(date);
-            string responseContent = cacheData;
-            string sunsetString = responseContent.GetSunsetString();
-            DateTime localTime = sunsetString.GetLocalTime(date);
-            return localTime;
+            return cacheData.GetSunsetString().GetLocalTime(date);
         }
 
         public DateTime GetSunrise(DateTime date)
         {
             RefreshCache(date);
-            string responseContent = cacheData;
-            string sunriseString = responseContent.GetSunriseString();
-            DateTime localTime = sunriseString.GetLocalTime(date);
-            return localTime;
+            return cacheData.GetSunriseString().GetLocalTime(date);
         }
 
         private void RefreshCache(DateTime date)
         {
             if (cacheDate != date)
             {
+                //cacheData = "{\"results\":{\"sunrise\":\"2:56:10 PM\",\"sunset\":\"1:06:09 AM\",\"solar_noon\":\"8:01:09 PM\",\"day_length\":\"10:09:59\",\"civil_twilight_begin\":\"2:29:14 PM\",\"civil_twilight_end\":\"1:33:05 AM\",\"nautical_twilight_begin\":\"1:58:37 PM\",\"nautical_twilight_end\":\"2:03:42 AM\",\"astronomical_twilight_begin\":\"1:28:38 PM\",\"astronomical_twilight_end\":\"2:33:41 AM\"},\"status\":\"OK\"}";
                 cacheData = GetContentFromService(date).Result;
                 cacheDate = date;
             }
@@ -65,7 +60,6 @@ namespace HouseControl.Sunset
             if (responseContent == null)
                 return null;
 
-            //string responseContent = "{\"results\":{\"sunrise\":\"2:56:10 PM\",\"sunset\":\"1:06:09 AM\",\"solar_noon\":\"8:01:09 PM\",\"day_length\":\"10:09:59\",\"civil_twilight_begin\":\"2:29:14 PM\",\"civil_twilight_end\":\"1:33:05 AM\",\"nautical_twilight_begin\":\"1:58:37 PM\",\"nautical_twilight_end\":\"2:03:42 AM\",\"astronomical_twilight_begin\":\"1:28:38 PM\",\"astronomical_twilight_end\":\"2:33:41 AM\"},\"status\":\"OK\"}";
             dynamic contentObject = JsonConvert.DeserializeObject(responseContent);
             if (contentObject.status != "OK")
                 return null;
@@ -77,7 +71,6 @@ namespace HouseControl.Sunset
             if (responseContent == null)
                 return null;
 
-            //string responseContent = "{\"results\":{\"sunrise\":\"2:56:10 PM\",\"sunset\":\"1:06:09 AM\",\"solar_noon\":\"8:01:09 PM\",\"day_length\":\"10:09:59\",\"civil_twilight_begin\":\"2:29:14 PM\",\"civil_twilight_end\":\"1:33:05 AM\",\"nautical_twilight_begin\":\"1:58:37 PM\",\"nautical_twilight_end\":\"2:03:42 AM\",\"astronomical_twilight_begin\":\"1:28:38 PM\",\"astronomical_twilight_end\":\"2:33:41 AM\"},\"status\":\"OK\"}";
             dynamic contentObject = JsonConvert.DeserializeObject(responseContent);
             if (contentObject.status != "OK")
                 return null;
