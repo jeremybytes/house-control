@@ -8,9 +8,27 @@ using System.Threading.Tasks;
 
 namespace HouseControl.Sunset
 {
+    public class ResponseContentString
+    {
+        public string Value { get; set; }
+        public ResponseContentString(string value)
+        {
+            Value = value;
+        }
+    }
+
+    public class UTCTimeString
+    {
+        public string Value { get; set; }
+        public UTCTimeString(string value)
+        {
+            Value = value;
+        }
+    }
+
     public class SunriseSunsetOrg : ISunsetProvider
     {
-        private static string cacheData;
+        private static ResponseContentString cacheData;
         private static DateTime cacheDate;
 
         public DateTime GetSunset(DateTime date)
@@ -35,7 +53,7 @@ namespace HouseControl.Sunset
             }
         }
 
-        private static async Task<string> GetContentFromService(DateTime date)
+        private static async Task<ResponseContentString> GetContentFromService(DateTime date)
         {
             using (var client = new HttpClient())
             {
@@ -46,42 +64,45 @@ namespace HouseControl.Sunset
                     "json?lat=33.8361&lng=-117.8897&date={0:yyyy-MM-dd}", date);
                 HttpResponseMessage response = await client.GetAsync(apiString);
 
-                if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadAsStringAsync();
-                return null;
+                if (!response.IsSuccessStatusCode)
+                    return null;
+                var responseString = await response.Content.ReadAsStringAsync();
+                return new ResponseContentString(responseString);
             }
         }
     }
 
     public static class SunriseSunsetOrgHelpers
     {
-        public static string GetSunsetString(this string responseContent)
+        public static UTCTimeString GetSunsetString(this ResponseContentString responseContent)
         {
             if (responseContent == null)
                 return null;
 
-            dynamic contentObject = JsonConvert.DeserializeObject(responseContent);
+            dynamic contentObject = JsonConvert.DeserializeObject(responseContent.Value);
             if (contentObject.status != "OK")
                 return null;
-            return contentObject.results.sunset.ToString();
+            var timeString = contentObject.results.sunset.ToString();
+            return new UTCTimeString(timeString);
         }
 
-        public static string GetSunriseString(this string responseContent)
+        public static UTCTimeString GetSunriseString(this ResponseContentString responseContent)
         {
             if (responseContent == null)
                 return null;
 
-            dynamic contentObject = JsonConvert.DeserializeObject(responseContent);
+            dynamic contentObject = JsonConvert.DeserializeObject(responseContent.Value);
             if (contentObject.status != "OK")
                 return null;
-            return contentObject.results.sunrise.ToString();
+            var timeString = contentObject.results.sunrise.ToString();
+            return new UTCTimeString(timeString);
         }
 
-        public static DateTime GetLocalTime(this string sunsetString, DateTime date)
+        public static DateTime GetLocalTime(this UTCTimeString sunsetString, DateTime date)
         {
             if (sunsetString == null)
                 return date;
-            DateTime sunsetTime = DateTime.Parse(sunsetString,
+            DateTime sunsetTime = DateTime.Parse(sunsetString.Value,
                 CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             DateTime localTime = date.Date + sunsetTime.TimeOfDay;
             return localTime;
