@@ -16,13 +16,17 @@ namespace HouseControl.Sunset
         public DateTime GetSunset(DateTime date)
         {
             RefreshCache(date);
-            return cacheData.GetSunsetString().GetLocalTime(date);
+            var sunsetString = GetSunsetString(cacheData);
+            var localSunsetTime = GetLocalTime(sunsetString, date);
+            return localSunsetTime;
         }
 
         public DateTime GetSunrise(DateTime date)
         {
             RefreshCache(date);
-            return cacheData.GetSunriseString().GetLocalTime(date);
+            var sunriseString = GetSunriseString(cacheData);
+            var localSunsetTime = GetLocalTime(sunriseString, date);
+            return localSunsetTime;
         }
 
         private void RefreshCache(DateTime date)
@@ -51,11 +55,8 @@ namespace HouseControl.Sunset
                 return null;
             }
         }
-    }
 
-    public static class SunriseSunsetOrgHelpers
-    {
-        public static string GetSunsetString(this string responseContent)
+        public static string GetSunsetString(string responseContent)
         {
             if (responseContent == null)
                 return null;
@@ -66,7 +67,7 @@ namespace HouseControl.Sunset
             return contentObject.results.sunset.ToString();
         }
 
-        public static string GetSunriseString(this string responseContent)
+        public static string GetSunriseString(string responseContent)
         {
             if (responseContent == null)
                 return null;
@@ -77,7 +78,7 @@ namespace HouseControl.Sunset
             return contentObject.results.sunrise.ToString();
         }
 
-        public static DateTime GetLocalTime(this string sunsetString, DateTime date)
+        public static DateTime GetLocalTime(string sunsetString, DateTime date)
         {
             if (sunsetString == null)
                 return date;
