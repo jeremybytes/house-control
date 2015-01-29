@@ -16,7 +16,7 @@ namespace HouseControl.Sunset.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void UTCTimeString_WithNull_IsInvalid()
+        public void UTCTimeString_WithNull_ThrowsException()
         {
             string value = null;
             var timeString = new UTCTimeString(value);
@@ -24,7 +24,7 @@ namespace HouseControl.Sunset.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void UTCTimeString_WithInvalidValue_IsInvalid()
+        public void UTCTimeString_WithInvalidValue_ThrowsException()
         {
             string value = "Hello";
             var timeString = new UTCTimeString(value);
@@ -40,7 +40,7 @@ namespace HouseControl.Sunset.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ResponseContentString_WithNulValue_IsInvalid()
+        public void ResponseContentString_WithNulValue_ThrowsException()
         {
             string value = null;
             var contentString = new ResponseContentString(value);
@@ -48,7 +48,7 @@ namespace HouseControl.Sunset.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ResponseContentString_WithInvalidValue_IsInvalid()
+        public void ResponseContentString_WithInvalidValue_ThrowsException()
         {
             string value = "Hello";
             var contentString = new ResponseContentString(value);
