@@ -11,18 +11,49 @@ namespace HouseControl.Sunset
     public class ResponseContentString
     {
         public string Value { get; set; }
+        public bool IsValid { get; set; }
         public ResponseContentString(string value)
         {
+            if (value == null)
+            {
+                IsValid = false;
+                return;
+            }
+            try
+            {
+                JsonConvert.DeserializeObject(value);
+            }
+            catch
+            {
+                IsValid = false;
+                return;
+            }
+
             Value = value;
+            IsValid = true;
         }
     }
 
     public class UTCTimeString
     {
         public string Value { get; set; }
+        public bool IsValid { get; set; }
         public UTCTimeString(string value)
         {
+            if (value == null)
+            {
+                IsValid = false;
+                return;
+            }
+            DateTime time;
+            if (!DateTime.TryParse(value, out time))
+            {
+                IsValid = false;
+                return;
+            }
+
             Value = value;
+            IsValid = true;
         }
     }
 

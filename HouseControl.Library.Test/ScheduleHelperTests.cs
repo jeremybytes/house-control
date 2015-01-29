@@ -62,27 +62,6 @@ namespace HouseControl.Library.Test
         }
 
         [TestMethod]
-        public void MondayItemInFuture_OnRollWeekendDay_IsSaturday()
-        {
-            // Arrange
-            DateTime monday = new DateTime(2020, 01, 06, 15, 32, 00);
-            Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
-            DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
-
-            ScheduleInfo info = new ScheduleInfo()
-            {
-                EventTime = monday,
-                TimeType = ScheduleTimeType.Standard,
-            };
-
-            // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekendDay(info);
-
-            // Assert
-            Assert.AreEqual(saturday, newDate);
-        }
-
-        [TestMethod]
         public void SaturdayItemInFuture_OnRollDay_IsUnchanged()
         {
             // Arrange
@@ -99,27 +78,6 @@ namespace HouseControl.Library.Test
 
             // Assert
             Assert.AreEqual(saturday, newDate);
-        }
-
-        [TestMethod]
-        public void SaturdayItemInFuture_OnRollWeekdayDay_IsMonday()
-        {
-            // Arrange
-            DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
-            Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
-            DateTime monday = new DateTime(2020, 01, 13, 15, 32, 00);
-
-            ScheduleInfo info = new ScheduleInfo()
-            {
-                EventTime = saturday,
-                TimeType = ScheduleTimeType.Standard,
-            };
-
-            // Act
-            var newDate = ScheduleHelper.RollForwardToNextWeekdayDay(info);
-
-            // Assert
-            Assert.AreEqual(monday, newDate);
         }
 
         [TestMethod]
