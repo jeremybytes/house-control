@@ -11,13 +11,11 @@ namespace HouseControl.Sunset
     public class ResponseContentString
     {
         public string Value { get; set; }
-        public bool IsValid { get; set; }
         public ResponseContentString(string value)
         {
             if (value == null)
             {
-                IsValid = false;
-                return;
+                throw new ArgumentNullException("value", "Value cannot be null");
             }
             try
             {
@@ -25,35 +23,29 @@ namespace HouseControl.Sunset
             }
             catch
             {
-                IsValid = false;
-                return;
+                throw new ArgumentException("value", "Value is not a valid JSON object");
             }
 
             Value = value;
-            IsValid = true;
         }
     }
 
     public class UTCTimeString
     {
         public string Value { get; set; }
-        public bool IsValid { get; set; }
         public UTCTimeString(string value)
         {
             if (value == null)
             {
-                IsValid = false;
-                return;
+                throw new ArgumentNullException("value", "Value cannot be null");
             }
             DateTime time;
             if (!DateTime.TryParse(value, out time))
             {
-                IsValid = false;
-                return;
+                throw new ArgumentException("value", "Value is not a valid time string");
             }
 
             Value = value;
-            IsValid = true;
         }
     }
 
