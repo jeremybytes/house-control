@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseControl.Library.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseControl.Sunset", "HouseControl.Sunset\HouseControl.Sunset.csproj", "{74FA0173-6D5F-4086-BD9B-BE67BE1D5788}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseControl.Sunset.Test", "HouseControl.Sunset.Test\HouseControl.Sunset.Test.csproj", "{60CE9913-8840-4C28-B0E4-B8BBC08ABF69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{74FA0173-6D5F-4086-BD9B-BE67BE1D5788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74FA0173-6D5F-4086-BD9B-BE67BE1D5788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FA0173-6D5F-4086-BD9B-BE67BE1D5788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CE9913-8840-4C28-B0E4-B8BBC08ABF69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CE9913-8840-4C28-B0E4-B8BBC08ABF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CE9913-8840-4C28-B0E4-B8BBC08ABF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CE9913-8840-4C28-B0E4-B8BBC08ABF69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
