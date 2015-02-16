@@ -104,5 +104,22 @@ namespace HouseControl.Sunset.Test
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void GetSunrise_WithDate_ReturnsSunriseForDate()
+        {
+            DateTime currentDate = new DateTime(2015, 02, 15);
+            DateTime expected = new DateTime(2015, 02, 15, 06, 35, 18);
+
+            Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
+            serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
+                .Returns(sampleData);
+
+            SunsetTDD provider = new SunsetTDD();
+            provider.SunsetService = serviceMock.Object;
+            DateTime result = provider.GetSunrise(currentDate);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }

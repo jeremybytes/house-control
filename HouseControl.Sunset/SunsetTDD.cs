@@ -35,7 +35,10 @@ namespace HouseControl.Sunset
 
         public DateTime GetSunrise(DateTime date)
         {
-            throw new NotImplementedException();
+            string serviceData = SunsetService.GetServiceData(date);
+            string utcTimeString = ParseSunrise(serviceData);
+            DateTime localTime = GetLocalTime(utcTimeString, date);
+            return localTime;
         }
 
         public static bool CheckStatus(string sampleData)
