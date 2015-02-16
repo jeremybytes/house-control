@@ -19,9 +19,9 @@ namespace HouseControl.Sunset
             }
             set
             {
-                if (value == sunsetService)
+                if (sunsetService == value)
                     return;
-                value = sunsetService;
+                sunsetService = value;
             }
         }
 
