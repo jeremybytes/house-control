@@ -25,9 +25,12 @@ namespace HouseControl.Sunset
             }
         }
 
+        private DateTime cacheDataDate;
+        private string cacheServiceData;
+
         public DateTime GetSunset(DateTime date)
         {
-            string serviceData = SunsetService.GetServiceData(date);
+            string serviceData = GetServiceData(date);
             string utcTimeString = ParseSunset(serviceData);
             DateTime localTime = GetLocalTime(utcTimeString, date);
             return localTime;
@@ -35,10 +38,20 @@ namespace HouseControl.Sunset
 
         public DateTime GetSunrise(DateTime date)
         {
-            string serviceData = SunsetService.GetServiceData(date);
+            string serviceData = GetServiceData(date);
             string utcTimeString = ParseSunrise(serviceData);
             DateTime localTime = GetLocalTime(utcTimeString, date);
             return localTime;
+        }
+
+        private string GetServiceData(DateTime date)
+        {
+            if (cacheDataDate != date)
+            {
+                cacheDataDate = date;
+                cacheServiceData = SunsetService.GetServiceData(date);
+            }
+            return cacheServiceData;
         }
 
         public static bool CheckStatus(string sampleData)

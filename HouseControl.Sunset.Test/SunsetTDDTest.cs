@@ -121,5 +121,74 @@ namespace HouseControl.Sunset.Test
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void GetSunset_CalledMultipleTimesWithSameDate_CallsServiceOnce()
+        {
+            DateTime currentDate = new DateTime(2015, 02, 15);
+
+            Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
+            serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
+                .Returns(sampleData);
+
+            SunsetTDD provider = new SunsetTDD();
+            provider.SunsetService = serviceMock.Object;
+            DateTime result1 = provider.GetSunset(currentDate);
+            DateTime result2 = provider.GetSunset(currentDate);
+
+            serviceMock.Verify(s => s.GetServiceData(currentDate), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetSunrise_CalledMultipleTimesWithSameDate_CallsServiceOnce()
+        {
+            DateTime currentDate = new DateTime(2015, 02, 15);
+
+            Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
+            serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
+                .Returns(sampleData);
+
+            SunsetTDD provider = new SunsetTDD();
+            provider.SunsetService = serviceMock.Object;
+            DateTime result1 = provider.GetSunrise(currentDate);
+            DateTime result2 = provider.GetSunrise(currentDate);
+
+            serviceMock.Verify(s => s.GetServiceData(currentDate), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetSunriseGetSunset_CalledWithSameDate_CallsServiceOnce()
+        {
+            DateTime currentDate = new DateTime(2015, 02, 15);
+
+            Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
+            serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
+                .Returns(sampleData);
+
+            SunsetTDD provider = new SunsetTDD();
+            provider.SunsetService = serviceMock.Object;
+            DateTime result1 = provider.GetSunrise(currentDate);
+            DateTime result2 = provider.GetSunset(currentDate);
+
+            serviceMock.Verify(s => s.GetServiceData(currentDate), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetSunset_CalledWithDifferentDates_CallsServiceMoreThanOnce()
+        {
+            DateTime date1 = new DateTime(2015, 02, 15);
+            DateTime date2 = new DateTime(2015, 02, 16);
+
+            Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
+            serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
+                .Returns(sampleData);
+
+            SunsetTDD provider = new SunsetTDD();
+            provider.SunsetService = serviceMock.Object;
+            DateTime result1 = provider.GetSunset(date1);
+            DateTime result2 = provider.GetSunset(date2);
+
+            serviceMock.Verify(s => s.GetServiceData(It.IsAny<DateTime>()), Times.Exactly(2));
+        }
     }
 }
