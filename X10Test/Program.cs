@@ -9,7 +9,7 @@ namespace X10Test
     {
         static void Main(string[] args)
         {
-            var sunsetProvider = new SunriseSunsetOrg();
+            var sunsetProvider = new SunsetTDD();
             var sunset = sunsetProvider.GetSunset(DateTime.Today.AddDays(1));
             Console.WriteLine("Sunset Tomorrow: {0}", sunset.ToString("G"));
 

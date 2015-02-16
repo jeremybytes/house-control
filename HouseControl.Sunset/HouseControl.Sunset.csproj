@@ -50,6 +50,7 @@
     <Compile Include="SunriseSunsetOrg.cs" />
     <Compile Include="ISunsetProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SunsetTDD.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
