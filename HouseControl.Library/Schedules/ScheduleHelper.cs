@@ -43,6 +43,11 @@ namespace HouseControl.Library
             return TimeProvider.Now().Date;
         }
 
+        public static DateTime Yesterday()
+        {
+            return TimeProvider.Now().Date.AddDays(-1);
+        }
+
         public static TimeSpan DurationFromNow(this DateTime checkTime)
         {
             return (checkTime - TimeProvider.Now()).Duration();
@@ -57,15 +62,15 @@ namespace HouseControl.Library
         {
             if (info.EventTime.IsInPast())
             {
-                DateTime tomorrow = Today() + TimeSpan.FromDays(1);
+                DateTime nextDay = info.EventTime.Date + TimeSpan.FromDays(1);
                 switch (info.TimeType)
                 {
                     case ScheduleTimeType.Standard:
-                        return tomorrow + info.EventTime.TimeOfDay + info.RelativeOffset;
+                        return nextDay + info.EventTime.TimeOfDay + info.RelativeOffset;
                     case ScheduleTimeType.Sunset:
-                        return SunsetProvider.GetSunset(tomorrow) + info.RelativeOffset;
+                        return SunsetProvider.GetSunset(nextDay) + info.RelativeOffset;
                     case ScheduleTimeType.Sunrise:
-                        return SunsetProvider.GetSunrise(tomorrow) + info.RelativeOffset;
+                        return SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset;
                 }
             }
             return info.EventTime;

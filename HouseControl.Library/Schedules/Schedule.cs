@@ -25,7 +25,7 @@ namespace HouseControl.Library
                         ScheduleSet = fields[0],
                         Info = new ScheduleInfo()
                         {
-                            EventTime = ScheduleHelper.Today() +
+                            EventTime = ScheduleHelper.Yesterday() +
                                         DateTime.Parse(fields[1]).TimeOfDay,
                             TimeType = (ScheduleTimeType)Enum.Parse(typeof(ScheduleTimeType), fields[2], true),
                             RelativeOffset = TimeSpan.Parse(fields[3]),
@@ -46,8 +46,14 @@ namespace HouseControl.Library
             for (int i = Count - 1; i >= 0; i--)
             {
                 var currentItem = this[i];
-                if (currentItem.Info.EventTime.IsInPast())
+                while (currentItem.Info.EventTime.IsInPast())
                 {
+                    if(currentItem.Info.Type == ScheduleType.Once)
+                    {
+                        this.RemoveAt(i);
+                        break;
+                    }
+
                     switch (currentItem.Info.Type)
                     {
                         case ScheduleType.Daily:
@@ -61,9 +67,6 @@ namespace HouseControl.Library
                         case ScheduleType.Weekend:
                             currentItem.Info.EventTime =
                                 ScheduleHelper.RollForwardToNextWeekendDay(currentItem.Info);
-                            break;
-                        case ScheduleType.Once:
-                            this.RemoveAt(i);
                             break;
                         default:
                             break;

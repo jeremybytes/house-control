@@ -51,7 +51,11 @@ namespace HouseControl.Sunset.Test
         {
             string utcTimeString = "1:35:58 AM";
             DateTime currentDate = new DateTime(2015, 02, 15);
-            DateTime expectedLocalTime = new DateTime(2015, 02, 15, 17, 35, 58);
+            DateTime expectedLocalTime;
+            if (DateTime.Today.IsDaylightSavingTime())
+                expectedLocalTime = new DateTime(2015, 02, 15, 18, 35, 58);
+            else
+                expectedLocalTime = new DateTime(2015, 02, 15, 17, 35, 58);
             DateTime result = SunsetTDD.GetLocalTime(utcTimeString, currentDate);
             Assert.AreEqual(expectedLocalTime, result);
         }
@@ -92,7 +96,13 @@ namespace HouseControl.Sunset.Test
         public void GetSunset_WithDate_ReturnsSunsetForDate()
         {
             DateTime currentDate = new DateTime(2015, 02, 15);
-            DateTime expected = new DateTime(2015, 02, 15, 17, 35, 58);
+            DateTime expected;
+            if (DateTime.Today.IsDaylightSavingTime())
+                expected = new DateTime(2015, 02, 15, 18, 35, 58);
+            else
+                expected = new DateTime(2015, 02, 15, 17, 35, 58);
+
+
 
             Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
@@ -109,7 +119,12 @@ namespace HouseControl.Sunset.Test
         public void GetSunrise_WithDate_ReturnsSunriseForDate()
         {
             DateTime currentDate = new DateTime(2015, 02, 15);
-            DateTime expected = new DateTime(2015, 02, 15, 06, 35, 18);
+            DateTime expected;
+            if (DateTime.Today.IsDaylightSavingTime())
+                expected = new DateTime(2015, 02, 15, 07, 35, 18);
+            else
+                expected = new DateTime(2015, 02, 15, 06, 35, 18);
+
 
             Mock<ISunsetService> serviceMock = new Mock<ISunsetService>();
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
