@@ -8,8 +8,6 @@ namespace HouseControl.Library
     {
         public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
         {
-            filename = filename + ".txt";
-
             var schedule = new List<ScheduleItem>();
             if (File.Exists(filename))
             {

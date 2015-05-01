@@ -8,7 +8,7 @@ namespace HouseControl.Editor
 {
     public class EditorViewModel : INotifyPropertyChanged
     {
-        private string filename = AppDomain.CurrentDomain.BaseDirectory + "ScheduleData";
+        private string filename = AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.json";
         public string FileName
         {
             get { return filename; }
@@ -16,6 +16,7 @@ namespace HouseControl.Editor
             {
                 if (filename == value) return;
                 filename = value;
+                LocalSchedule = new Schedule(filename);
                 RaisePropertyChanged();
             }
         }

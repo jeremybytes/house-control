@@ -25,7 +25,7 @@ namespace HouseControl.Library
 
         private Timer scheduler = new Timer(60000);
         private Schedule schedule = new Schedule(
-            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData");
+            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.json");
 
         public HouseController()
         {

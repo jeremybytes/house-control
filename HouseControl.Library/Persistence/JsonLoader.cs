@@ -9,7 +9,6 @@ namespace HouseControl.Library
         public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
         {
             var output = new List<ScheduleItem>();
-            filename = filename + ".json";
 
             var schedule = new List<ScheduleItem>();
             if (File.Exists(filename))

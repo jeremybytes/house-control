@@ -8,8 +8,6 @@ namespace HouseControl.Library
     {
         public void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule)
         {
-            filename = filename + ".txt";
-
             using (var writer = new StreamWriter(filename, false))
             {
                 foreach (var item in schedule)

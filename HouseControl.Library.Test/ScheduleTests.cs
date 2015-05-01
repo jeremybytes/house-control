@@ -6,7 +6,7 @@ namespace HouseControl.Library.Test
     [TestClass]
     public class ScheduleTests
     {
-        string fileName = AppDomain.CurrentDomain.BaseDirectory + "\\ScheduleData";
+        string fileName = AppDomain.CurrentDomain.BaseDirectory + "\\ScheduleData.json";
 
         [TestInitialize]
         public void Setup()
