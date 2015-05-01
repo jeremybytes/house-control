@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="HouseControl.Editor.EditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding LocalSchedule}" Grid.Row="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBox Text="{Binding ScheduleSet}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsEnabled}" />
+                            <TextBox Text="{Binding Info.EventTime}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding Info.TimeType}" />
+                            <TextBox Text="{Binding Info.RelativeOffset}" />
+                            <TextBox Text="{Binding Info.Type}" />
+                        </StackPanel>
+                        <TextBox Text="{Binding Device}" />
+                        <TextBlock Text="{Binding Command}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Grid.Row="1" x:Name="SaveButton" Content="Save" 
+                Click="SaveButton_Click" />
+    </Grid>
+</UserControl>
