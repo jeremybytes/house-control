@@ -6,30 +6,32 @@ namespace HouseControl.Library
 {
     public class CSVSaver
     {
-        public void SaveScheduleItems(string fileName, IEnumerable<ScheduleItem> schedule)
+        public void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule)
         {
-            using (var sr = new StreamWriter(fileName, false))
+            filename = filename + ".txt";
+
+            using (var writer = new StreamWriter(filename, false))
             {
                 foreach (var item in schedule)
                 {
-                    sr.Write(item.ScheduleSet);
-                    sr.Write(",");
+                    writer.Write(item.ScheduleSet);
+                    writer.Write(",");
                     var time = new DateTime(2000, 01, 01);
                     if (item.Info.TimeType == ScheduleTimeType.Standard)
                         time = time + item.Info.EventTime.TimeOfDay;
-                    sr.Write(time.ToString("s"));
-                    sr.Write(",");
-                    sr.Write(item.Info.TimeType);
-                    sr.Write(",");
-                    sr.Write(item.Info.RelativeOffset);
-                    sr.Write(",");
-                    sr.Write(item.Info.Type);
-                    sr.Write(",");
-                    sr.Write(item.Device);
-                    sr.Write(",");
-                    sr.Write(item.Command);
-                    sr.Write(",");
-                    sr.WriteLine(item.IsEnabled);
+                    writer.Write(time.ToString("s"));
+                    writer.Write(",");
+                    writer.Write(item.Info.TimeType);
+                    writer.Write(",");
+                    writer.Write(item.Info.RelativeOffset);
+                    writer.Write(",");
+                    writer.Write(item.Info.Type);
+                    writer.Write(",");
+                    writer.Write(item.Device);
+                    writer.Write(",");
+                    writer.Write(item.Command);
+                    writer.Write(",");
+                    writer.WriteLine(item.IsEnabled);
                 }
             }
         }

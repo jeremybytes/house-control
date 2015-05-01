@@ -26,9 +26,7 @@ namespace X10Test
             controller.ScheduleOneTimeItem(currentTime.AddMinutes(3), 1, DeviceCommands.Off);
             controller.ScheduleOneTimeItem(currentTime.AddMinutes(4), 2, DeviceCommands.Off);
 
-            //var saver = new CSVSaver();
-            //saver.SaveScheduleItems(AppDomain.CurrentDomain.BaseDirectory + "ScheduleData2.txt",
-            //    controller.GetCurrentScheduleItems());
+            //controller.SaveSchedule();
 
             Console.WriteLine("Test Completed");
 
@@ -48,6 +46,10 @@ namespace X10Test
                             item.Device.ToString(), 
                             item.Command.ToString());
                     }
+                }
+                if (command == "r")
+                {
+                    controller.ReloadSchedule();
                 }
             }
         }

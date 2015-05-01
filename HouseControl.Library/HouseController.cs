@@ -25,7 +25,7 @@ namespace HouseControl.Library
 
         private Timer scheduler = new Timer(60000);
         private Schedule schedule = new Schedule(
-            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.txt");
+            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData");
 
         public HouseController()
         {
@@ -97,6 +97,16 @@ namespace HouseControl.Library
             foreach (var item in schedule.Where(i => i.IsEnabled))
                 result.Add(item);
             return result;
+        }
+
+        public void ReloadSchedule()
+        {
+            schedule.LoadSchedule();
+        }
+
+        public void SaveSchedule()
+        {
+            schedule.SaveSchedule();
         }
     }
 }

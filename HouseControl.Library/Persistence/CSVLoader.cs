@@ -6,15 +6,17 @@ namespace HouseControl.Library
 {
     public class CSVLoader
     {
-        public IEnumerable<ScheduleItem> LoadScheduleItems(string fileName)
+        public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
         {
+            filename = filename + ".txt";
+
             var schedule = new List<ScheduleItem>();
-            if (File.Exists(fileName))
+            if (File.Exists(filename))
             {
-                using (var sr = new StreamReader(fileName))
+                using (var reader = new StreamReader(filename))
                 {
                     string line;
-                    while ((line = sr.ReadLine()) != null)
+                    while ((line = reader.ReadLine()) != null)
                     {
                         var fields = line.Split(',');
                         var scheduleItem = new ScheduleItem()

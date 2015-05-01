@@ -6,18 +6,52 @@ namespace HouseControl.Library
 {
     public class Schedule : List<ScheduleItem>
     {
+        private string filename;
+
         public Schedule(string filename)
         {
-            LoadScheduleFromCSV(filename);
+            this.filename = filename;
+            LoadSchedule();
         }
 
-        private void LoadScheduleFromCSV(string fileName)
+        public void LoadSchedule()
+        {
+            LoadScheduleFromJson();
+        }
+
+        public void SaveSchedule()
+        {
+            SaveSchedulToJson();
+        }
+
+        private void LoadScheduleFromCSV()
         {
             var loader = new CSVLoader();
             this.Clear();
-            this.AddRange(loader.LoadScheduleItems(fileName));
+            this.AddRange(loader.LoadScheduleItems(filename));
 
             RollSchedule();
+        }
+
+        private void LoadScheduleFromJson()
+        {
+            var loader = new JsonLoader();
+            this.Clear();
+            this.AddRange(loader.LoadScheduleItems(filename));
+
+            RollSchedule();
+        }
+
+        private void SaveScheduleToCSV()
+        {
+            var saver = new CSVSaver();
+            saver.SaveScheduleItems(filename, this);
+        }
+
+        private void SaveSchedulToJson()
+        {
+            var saver = new JsonSaver();
+            saver.SaveScheduleItems(filename, this);
         }
 
         public void RollSchedule()
