@@ -8,6 +8,39 @@ namespace HouseControl.Library
     {
         private string filename;
 
+        private IScheduleLoader loader;
+        public IScheduleLoader Loader
+        {
+            get
+            {
+                if (loader == null)
+                    loader = new JsonLoader();
+                return loader;
+            }
+            set
+            {
+                if (loader != value)
+                    loader = value;
+            }
+        }
+
+        private IScheduleSaver saver;
+
+        public IScheduleSaver Saver
+        {
+            get
+            {
+                if (saver == null)
+                    saver = new JsonSaver();
+                return saver;
+            }
+            set
+            {
+                if (saver != value)
+                    saver = value;
+            }
+        }
+
         public Schedule(string filename)
         {
             this.filename = filename;
@@ -16,42 +49,14 @@ namespace HouseControl.Library
 
         public void LoadSchedule()
         {
-            LoadScheduleFromJson();
+            this.Clear();
+            this.AddRange(Loader.LoadScheduleItems(filename));
+            RollSchedule();
         }
 
         public void SaveSchedule()
         {
-            SaveSchedulToJson();
-        }
-
-        private void LoadScheduleFromCSV()
-        {
-            var loader = new CSVLoader();
-            this.Clear();
-            this.AddRange(loader.LoadScheduleItems(filename));
-
-            RollSchedule();
-        }
-
-        private void LoadScheduleFromJson()
-        {
-            var loader = new JsonLoader();
-            this.Clear();
-            this.AddRange(loader.LoadScheduleItems(filename));
-
-            RollSchedule();
-        }
-
-        private void SaveScheduleToCSV()
-        {
-            var saver = new CSVSaver();
-            saver.SaveScheduleItems(filename, this);
-        }
-
-        private void SaveSchedulToJson()
-        {
-            var saver = new JsonSaver();
-            saver.SaveScheduleItems(filename, this);
+            Saver.SaveScheduleItems(filename, this);
         }
 
         public void RollSchedule()
