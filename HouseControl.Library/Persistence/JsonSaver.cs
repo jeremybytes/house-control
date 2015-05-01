@@ -4,7 +4,7 @@ using System.IO;
 
 namespace HouseControl.Library
 {
-    public class JsonSaver
+    public class JsonSaver : IScheduleSaver
     {
         public void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule)
         {

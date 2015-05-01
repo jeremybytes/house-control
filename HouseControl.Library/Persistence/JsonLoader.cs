@@ -4,7 +4,7 @@ using System.IO;
 
 namespace HouseControl.Library
 {
-    public class JsonLoader
+    public class JsonLoader : IScheduleLoader
     {
         public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
         {

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace HouseControl.Library
 {
-    public class CSVLoader
+    public class CSVLoader : IScheduleLoader
     {
         public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
         {

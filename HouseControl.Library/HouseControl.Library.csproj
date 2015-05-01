@@ -51,6 +51,8 @@
     <Compile Include="MessageGenerator.cs" />
     <Compile Include="Persistence\CSVLoader.cs" />
     <Compile Include="Persistence\CSVSaver.cs" />
+    <Compile Include="Persistence\IScheduleLoader.cs" />
+    <Compile Include="Persistence\IScheduleSaver.cs" />
     <Compile Include="Persistence\JsonLoader.cs" />
     <Compile Include="Persistence\JsonSaver.cs" />
     <Compile Include="Schedules\ITimeProvider.cs" />
