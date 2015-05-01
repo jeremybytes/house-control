@@ -13,32 +13,11 @@ namespace HouseControl.Library
 
         private void LoadScheduleFromCSV(string fileName)
         {
-            if (File.Exists(fileName))
-            {
-                var sr = new StreamReader(fileName);
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    var fields = line.Split(',');
-                    var scheduleItem = new ScheduleItem()
-                    {
-                        ScheduleSet = fields[0],
-                        Info = new ScheduleInfo()
-                        {
-                            EventTime = ScheduleHelper.Yesterday() +
-                                        DateTime.Parse(fields[1]).TimeOfDay,
-                            TimeType = (ScheduleTimeType)Enum.Parse(typeof(ScheduleTimeType), fields[2], true),
-                            RelativeOffset = TimeSpan.Parse(fields[3]),
-                            Type = (ScheduleType)Enum.Parse(typeof(ScheduleType), fields[4], true),
-                        },
-                        Device = Int32.Parse(fields[5]),
-                        Command = (DeviceCommands)Enum.Parse(typeof(DeviceCommands), fields[6]),
-                        IsEnabled = bool.Parse(fields[7]),
-                    };
-                    this.Add(scheduleItem);
-                }
-                RollSchedule();
-            }
+            var loader = new CSVLoader();
+            this.Clear();
+            this.AddRange(loader.LoadScheduleItems(fileName));
+
+            RollSchedule();
         }
 
         public void RollSchedule()
@@ -48,7 +27,7 @@ namespace HouseControl.Library
                 var currentItem = this[i];
                 while (currentItem.Info.EventTime.IsInPast())
                 {
-                    if(currentItem.Info.Type == ScheduleType.Once)
+                    if (currentItem.Info.Type == ScheduleType.Once)
                     {
                         this.RemoveAt(i);
                         break;

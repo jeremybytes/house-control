@@ -26,6 +26,9 @@ namespace X10Test
             controller.ScheduleOneTimeItem(currentTime.AddMinutes(3), 1, DeviceCommands.Off);
             controller.ScheduleOneTimeItem(currentTime.AddMinutes(4), 2, DeviceCommands.Off);
 
+            //var saver = new CSVSaver();
+            //saver.SaveScheduleItems(AppDomain.CurrentDomain.BaseDirectory + "ScheduleData2.txt",
+            //    controller.GetCurrentScheduleItems());
 
             Console.WriteLine("Test Completed");
 

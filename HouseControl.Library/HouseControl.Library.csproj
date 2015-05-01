@@ -45,6 +45,8 @@
     <Compile Include="HouseController.cs" />
     <Compile Include="Commanders\ICommander.cs" />
     <Compile Include="MessageGenerator.cs" />
+    <Compile Include="Persistence\CSVLoader.cs" />
+    <Compile Include="Persistence\CSVSaver.cs" />
     <Compile Include="Schedules\ITimeProvider.cs" />
     <Compile Include="Schedules\Schedule.cs" />
     <Compile Include="Schedules\ScheduleHelper.cs" />
