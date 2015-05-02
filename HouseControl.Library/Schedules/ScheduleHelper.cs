@@ -27,7 +27,7 @@ namespace HouseControl.Library
             get
             {
                 if (sunsetProvider == null)
-                    sunsetProvider = new SunriseSunsetOrg();
+                    sunsetProvider = new SolarCalculator();
                 return sunsetProvider;
             }
             set { sunsetProvider = value; }
