@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,16 +23,17 @@ namespace HouseControl.Editor
 
         private void FileNameButton_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = "ScheduleData";
-            dlg.DefaultExt = ".json";
-            dlg.Filter = "JSON (.json)|*.json" +
-                         "|All Files|*.*";
+            var dialog = new OpenFileDialog()
+            {
+                FileName = "ScheduleData",
+                DefaultExt = ".json",
+                Filter = "JSON (.json)|*.json" + "|All Files|*.*",
+            };
 
-            Nullable<bool> result = dlg.ShowDialog();
+            Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-                viewModel.FileName = dlg.FileName;
+                viewModel.FileName = dialog.FileName;
             }
         }
     }
