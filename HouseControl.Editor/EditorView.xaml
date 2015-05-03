@@ -1,8 +1,9 @@
-﻿<UserControl x:Class="HouseControl.Editor.EditorView"
+﻿<UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:local="clr-namespace:HouseControl.Editor" x:Class="HouseControl.Editor.EditorView" 
         mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500">
 
     <Grid>
@@ -13,9 +14,9 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <TextBox x:Name="FileNameTextBox" Width="450"
-                     Text="{Binding FileName}"/>
+				Text="{Binding FileName}"/>
             <Button x:Name="FileNameButton" Content="..." Padding="5,0"
-                    Click="FileNameButton_Click"/>
+				Click="FileNameButton_Click"/>
         </StackPanel>
         <ListBox ItemsSource="{Binding LocalSchedule}" Grid.Row="1">
             <ListBox.ItemTemplate>
@@ -27,17 +28,20 @@
                             <TextBox Text="{Binding Info.EventTime}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding Info.TimeType}" />
+                            <ComboBox SelectedItem="{Binding Info.TimeType}" 
+                                      ItemsSource="{Binding DataContext.ScheduleTimeTypeValues, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditorView}}}" />
                             <TextBox Text="{Binding Info.RelativeOffset}" />
-                            <TextBox Text="{Binding Info.Type}" />
+                            <ComboBox SelectedItem="{Binding Info.Type}" 
+                                      ItemsSource="{Binding DataContext.ScheduleTypeValues, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditorView}}}" />
                         </StackPanel>
                         <TextBox Text="{Binding Device}" />
-                        <TextBlock Text="{Binding Command}" />
+                        <ComboBox SelectedItem="{Binding Command}" 
+                                      ItemsSource="{Binding DataContext.DeviceCommandsValues, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditorView}}}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Grid.Row="2" x:Name="SaveButton" Content="Save" 
-                Click="SaveButton_Click" />
+			Click="SaveButton_Click" />
     </Grid>
 </UserControl>

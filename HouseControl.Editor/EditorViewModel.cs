@@ -3,11 +3,36 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace HouseControl.Editor
 {
     public class EditorViewModel : INotifyPropertyChanged
     {
+        public IEnumerable<DeviceCommands> DeviceCommandsValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(DeviceCommands)).Cast<DeviceCommands>();
+            }
+        }
+
+        public IEnumerable<ScheduleTimeType> ScheduleTimeTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(ScheduleTimeType)).Cast<ScheduleTimeType>();
+            }
+        }
+
+        public IEnumerable<ScheduleType> ScheduleTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(ScheduleType)).Cast<ScheduleType>();
+            }
+        }
+
         private string filename = AppDomain.CurrentDomain.BaseDirectory + "ScheduleData.json";
         public string FileName
         {
@@ -27,7 +52,7 @@ namespace HouseControl.Editor
             get { return localSchedule; }
             set
             {
-                if (localSchedule == value) return; 
+                if (localSchedule == value) return;
                 localSchedule = value;
                 RaisePropertyChanged();
             }
