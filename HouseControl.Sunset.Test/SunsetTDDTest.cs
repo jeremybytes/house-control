@@ -13,28 +13,28 @@ namespace HouseControl.Sunset.Test
         [TestMethod]
         public void CheckStatus_WithGoodData_ReturnsTrue()
         {
-            bool result = SunsetTDD.CheckStatus(sampleData);
+            bool result = SunsetTDDProvider.CheckStatus(sampleData);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void CheckStatus_WithErrorData_ReturnsFalse()
         {
-            bool result = SunsetTDD.CheckStatus(errorData);
+            bool result = SunsetTDDProvider.CheckStatus(errorData);
             Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void ParseSunset_WithGoodData_ReturnsString()
         {
-            string result = SunsetTDD.ParseSunset(sampleData);
+            string result = SunsetTDDProvider.ParseSunset(sampleData);
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void ParseSunset_WithErrorData_ReturnsNull()
         {
-            string result = SunsetTDD.ParseSunset(errorData);
+            string result = SunsetTDDProvider.ParseSunset(errorData);
             Assert.IsNull(result);
         }
 
@@ -42,7 +42,7 @@ namespace HouseControl.Sunset.Test
         public void ParseSunset_WithGoodData_ReturnsExpectedString()
         {
             string expected = "1:35:58 AM";
-            string result = SunsetTDD.ParseSunset(sampleData);
+            string result = SunsetTDDProvider.ParseSunset(sampleData);
             Assert.AreEqual(expected, result);
         }
 
@@ -56,7 +56,7 @@ namespace HouseControl.Sunset.Test
                 expectedLocalTime = new DateTime(2015, 02, 15, 18, 35, 58);
             else
                 expectedLocalTime = new DateTime(2015, 02, 15, 17, 35, 58);
-            DateTime result = SunsetTDD.GetLocalTime(utcTimeString, currentDate);
+            DateTime result = SunsetTDDProvider.GetLocalTime(utcTimeString, currentDate);
             Assert.AreEqual(expectedLocalTime, result);
         }
 
@@ -66,21 +66,21 @@ namespace HouseControl.Sunset.Test
             string utcTimeString = null;
             DateTime currentDate = new DateTime(2015, 02, 15);
             DateTime expectedLocalTime = new DateTime(2015, 02, 15, 0, 0, 0);
-            DateTime result = SunsetTDD.GetLocalTime(utcTimeString, currentDate);
+            DateTime result = SunsetTDDProvider.GetLocalTime(utcTimeString, currentDate);
             Assert.AreEqual(expectedLocalTime, result);
         }
 
         [TestMethod]
         public void ParseSunrise_WithGoodData_ReturnsString()
         {
-            string result = SunsetTDD.ParseSunrise(sampleData);
+            string result = SunsetTDDProvider.ParseSunrise(sampleData);
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void ParseSunrise_WithErrorData_ReturnsNull()
         {
-            string result = SunsetTDD.ParseSunrise(errorData);
+            string result = SunsetTDDProvider.ParseSunrise(errorData);
             Assert.IsNull(result);
         }
 
@@ -88,7 +88,7 @@ namespace HouseControl.Sunset.Test
         public void ParseSunrise_WithGoodData_ReturnsExpectedString()
         {
             string expected = "2:35:18 PM";
-            string result = SunsetTDD.ParseSunrise(sampleData);
+            string result = SunsetTDDProvider.ParseSunrise(sampleData);
             Assert.AreEqual(expected, result);
         }
 
@@ -108,7 +108,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result = provider.GetSunset(currentDate);
 
@@ -130,7 +130,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result = provider.GetSunrise(currentDate);
 
@@ -146,7 +146,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result1 = provider.GetSunset(currentDate);
             DateTime result2 = provider.GetSunset(currentDate);
@@ -163,7 +163,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result1 = provider.GetSunrise(currentDate);
             DateTime result2 = provider.GetSunrise(currentDate);
@@ -180,7 +180,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result1 = provider.GetSunrise(currentDate);
             DateTime result2 = provider.GetSunset(currentDate);
@@ -198,7 +198,7 @@ namespace HouseControl.Sunset.Test
             serviceMock.Setup(s => s.GetServiceData(It.IsAny<DateTime>()))
                 .Returns(sampleData);
 
-            SunsetTDD provider = new SunsetTDD();
+            SunsetTDDProvider provider = new SunsetTDDProvider();
             provider.SunsetService = serviceMock.Object;
             DateTime result1 = provider.GetSunset(date1);
             DateTime result2 = provider.GetSunset(date2);
