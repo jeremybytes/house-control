@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 
 namespace HouseControl.Sunset
 {
-    public class SunsetTDD : ISunsetProvider
+    public class SunsetTDDProvider : ISunsetProvider
     {
         private ISunsetService sunsetService;
         public ISunsetService SunsetService

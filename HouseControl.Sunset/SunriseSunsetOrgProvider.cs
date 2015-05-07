@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HouseControl.Sunset
 {
-    public class SunriseSunsetOrg : ISunsetProvider
+    public class SunriseSunsetOrgProvider : ISunsetProvider
     {
         private static string cacheData;
         private static DateTime cacheDate;

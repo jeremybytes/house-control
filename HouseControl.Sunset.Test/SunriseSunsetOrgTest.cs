@@ -14,21 +14,21 @@ namespace HouseControl.Sunset.Test
         public void GetSunsetString_WithValidResponse_ReturnsUTCString()
         {
             var expected = "1:06:09 AM";
-            var result = SunriseSunsetOrg.GetSunsetString(responseContent);
+            var result = SunriseSunsetOrgProvider.GetSunsetString(responseContent);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void GetSunsetString_WithNullResponse_ReturnsNull()
         {
-            var result = SunriseSunsetOrg.GetSunsetString(null);
+            var result = SunriseSunsetOrgProvider.GetSunsetString(null);
             Assert.IsNull(result);
         }
 
         [TestMethod]
         public void GetSunsetString_WithErrorStatusResponse_ReturnsNull()
         {
-            var result = SunriseSunsetOrg.GetSunsetString(errorResponseContent);
+            var result = SunriseSunsetOrgProvider.GetSunsetString(errorResponseContent);
             Assert.IsNull(result);
         }
 
@@ -36,28 +36,28 @@ namespace HouseControl.Sunset.Test
         [ExpectedException(typeof(JsonReaderException))]
         public void GetSunsetString_WithInvalidObject_ThrowsException()
         {
-            var result = SunriseSunsetOrg.GetSunsetString("Hello");
+            var result = SunriseSunsetOrgProvider.GetSunsetString("Hello");
         }
 
         [TestMethod]
         public void GetSunriseString_WithValidResponse_ReturnsUTCString()
         {
             var expected = "2:56:10 PM";
-            var result = SunriseSunsetOrg.GetSunriseString(responseContent);
+            var result = SunriseSunsetOrgProvider.GetSunriseString(responseContent);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void GetSunriseString_WithNullResponse_ReturnsNull()
         {
-            var result = SunriseSunsetOrg.GetSunriseString(null);
+            var result = SunriseSunsetOrgProvider.GetSunriseString(null);
             Assert.IsNull(result);
         }
 
         [TestMethod]
         public void GetSunriseString_WithErrorStatusResponse_ReturnsNull()
         {
-            var result = SunriseSunsetOrg.GetSunriseString(errorResponseContent);
+            var result = SunriseSunsetOrgProvider.GetSunriseString(errorResponseContent);
             Assert.IsNull(result);
         }
 
@@ -65,7 +65,7 @@ namespace HouseControl.Sunset.Test
         [ExpectedException(typeof(JsonReaderException))]
         public void GetSunriseString_WithInvalidObject_ThrowsException()
         {
-            var result = SunriseSunsetOrg.GetSunriseString("Hello");
+            var result = SunriseSunsetOrgProvider.GetSunriseString("Hello");
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace HouseControl.Sunset.Test
             var timeString = "1:06:09 AM";
             var date = DateTime.Today;
 
-            var result = SunriseSunsetOrg.GetLocalTime(timeString, date);
+            var result = SunriseSunsetOrgProvider.GetLocalTime(timeString, date);
             Assert.AreEqual(DateTime.Today, result.Date);
         }
     }
