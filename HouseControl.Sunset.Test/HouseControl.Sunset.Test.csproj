@@ -57,9 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="SunriseSunsetOrgTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SunsetTDDTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HouseControl.Sunset\HouseControl.Sunset.csproj">
