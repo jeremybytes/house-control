@@ -13,7 +13,7 @@ namespace HouseControl.Library
 
     public class ScheduleInfo
     {
-        public DateTime EventTime { get; set; }
+        public DateTimeOffset EventTime { get; set; }
         public ScheduleTimeType TimeType { get; set; }
         public TimeSpan RelativeOffset { get; set; }
         public ScheduleType Type { get; set; }

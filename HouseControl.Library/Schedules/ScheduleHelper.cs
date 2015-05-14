@@ -33,7 +33,7 @@ namespace HouseControl.Library
             set { sunsetProvider = value; }
         }
 
-        public static DateTime Now()
+        public static DateTimeOffset Now()
         {
             return TimeProvider.Now();
         }
@@ -48,21 +48,21 @@ namespace HouseControl.Library
             return TimeProvider.Now().Date.AddDays(-1);
         }
 
-        public static TimeSpan DurationFromNow(this DateTime checkTime)
+        public static TimeSpan DurationFromNow(this DateTimeOffset checkTime)
         {
             return (checkTime - TimeProvider.Now()).Duration();
         }
 
-        public static bool IsInPast(this DateTime checkTime)
+        public static bool IsInPast(this DateTimeOffset checkTime)
         {
             return checkTime < TimeProvider.Now();
         }
 
-        public static DateTime RollForwardToNextDay(ScheduleInfo info)
+        public static DateTimeOffset RollForwardToNextDay(ScheduleInfo info)
         {
             if (info.EventTime.IsInPast())
             {
-                DateTime nextDay = info.EventTime.Date + TimeSpan.FromDays(1);
+                var nextDay = info.EventTime.Date + TimeSpan.FromDays(1);
                 switch (info.TimeType)
                 {
                     case ScheduleTimeType.Standard:
@@ -76,7 +76,7 @@ namespace HouseControl.Library
             return info.EventTime;
         }
 
-        public static DateTime RollForwardToNextWeekdayDay(ScheduleInfo info)
+        public static DateTimeOffset RollForwardToNextWeekdayDay(ScheduleInfo info)
         {
             if (info.EventTime.IsInPast())
             {
@@ -99,7 +99,7 @@ namespace HouseControl.Library
             return info.EventTime;
         }
 
-        public static DateTime RollForwardToNextWeekendDay(ScheduleInfo info)
+        public static DateTimeOffset RollForwardToNextWeekendDay(ScheduleInfo info)
         {
             if (info.EventTime.IsInPast())
             {

@@ -5,16 +5,16 @@ namespace HouseControl.Sunset
 {
     public class SolarCalculatorSunsetProvider : ISunsetProvider
     {
-        public DateTime GetSunset(DateTime date)
+        public DateTimeOffset GetSunset(DateTime date)
         {
             var solarTimes = new SolarTimes(date, 33.8361, -117.8897);
-            return solarTimes.Sunset;
+            return new DateTimeOffset(solarTimes.Sunset);
         }
 
-        public DateTime GetSunrise(DateTime date)
+        public DateTimeOffset GetSunrise(DateTime date)
         {
             var solarTimes = new SolarTimes(date, 33.8361, -117.8897);
-            return solarTimes.Sunrise;
+            return new DateTimeOffset(solarTimes.Sunrise);
         }
     }
 }

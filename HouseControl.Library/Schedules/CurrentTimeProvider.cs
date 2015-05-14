@@ -8,9 +8,9 @@ namespace HouseControl.Library
 {
     public class CurrentTimeProvider : ITimeProvider
     {
-        public DateTime Now()
+        public DateTimeOffset Now()
         {
-            return DateTime.Now;
+            return DateTimeOffset.Now;
         }
     }
 }
