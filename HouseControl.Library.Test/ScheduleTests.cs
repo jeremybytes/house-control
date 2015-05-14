@@ -31,7 +31,7 @@ namespace HouseControl.Library.Test
         {
             // Arrange / Act
             var schedule = new Schedule(fileName);
-            var currentTime = DateTime.Now;
+            var currentTime = DateTimeOffset.Now;
 
             // Assert
             foreach (var item in schedule)
@@ -45,7 +45,7 @@ namespace HouseControl.Library.Test
         {
             // Arrange
             var schedule = new Schedule(fileName);
-            var currentTime = DateTime.Now;
+            var currentTime = DateTimeOffset.Now;
             foreach (var item in schedule)
             {
                 if (item.Info.EventTime > currentTime)
@@ -75,7 +75,7 @@ namespace HouseControl.Library.Test
                 Command = DeviceCommands.On,
                 Info = new ScheduleInfo()
                 {
-                    EventTime = DateTime.Now.AddMinutes(-2),
+                    EventTime = DateTimeOffset.Now.AddMinutes(-2),
                     Type = ScheduleType.Once,
                 },
                 IsEnabled = true,
@@ -104,7 +104,7 @@ namespace HouseControl.Library.Test
                 Command = DeviceCommands.On,
                 Info = new ScheduleInfo()
                 {
-                    EventTime = DateTime.Now.AddMinutes(2),
+                    EventTime = DateTimeOffset.Now.AddMinutes(2),
                     Type = ScheduleType.Once,
                 },
                 IsEnabled = true,

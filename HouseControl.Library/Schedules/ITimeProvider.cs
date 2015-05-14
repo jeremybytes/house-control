@@ -8,6 +8,6 @@ namespace HouseControl.Library
 {
     public interface ITimeProvider
     {
-        DateTime Now();
+        DateTimeOffset Now();
     }
 }

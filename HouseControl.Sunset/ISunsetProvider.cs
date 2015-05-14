@@ -8,7 +8,7 @@ namespace HouseControl.Sunset
 {
     public interface ISunsetProvider
     {
-        DateTime GetSunset(DateTime date);
-        DateTime GetSunrise(DateTime date);
+        DateTimeOffset GetSunset(DateTime date);
+        DateTimeOffset GetSunrise(DateTime date);
     }
 }

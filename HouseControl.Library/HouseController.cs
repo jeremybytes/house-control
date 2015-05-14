@@ -65,7 +65,7 @@ namespace HouseControl.Library
             }
         }
 
-        public void ScheduleOneTimeItem(DateTime time, int device,
+        public void ScheduleOneTimeItem(DateTimeOffset time, int device,
             DeviceCommands command)
         {
             var scheduleItem = new ScheduleItem()

@@ -15,7 +15,7 @@ namespace HouseControl.Library.Test
             ScheduleHelper.TimeProvider = new CurrentTimeProvider();
         }
 
-        private static void SetCurrentTime(DateTime currentTime)
+        private static void SetCurrentTime(DateTimeOffset currentTime)
         {
             var mockTime = new Mock<ITimeProvider>();
             mockTime.Setup(t => t.Now()).Returns(currentTime);
@@ -26,7 +26,8 @@ namespace HouseControl.Library.Test
         public void MondayItemInFuture_OnRollDay_IsUnchanged()
         {
             // Arrange
-            DateTime monday = new DateTime(2020, 01, 06, 15, 32, 00);
+            var monday = new DateTimeOffset(2020, 01, 06, 15, 32, 00, 
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
             ScheduleInfo info = new ScheduleInfo()
             {
@@ -45,7 +46,8 @@ namespace HouseControl.Library.Test
         public void MondayItemInFuture_OnRollWeekdayDay_IsUnchanged()
         {
             // Arrange
-            DateTime monday = new DateTime(2020, 01, 06, 15, 32, 00);
+            var monday = new DateTimeOffset(2020, 01, 06, 15, 32, 00,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
             ScheduleInfo info = new ScheduleInfo()
@@ -65,7 +67,8 @@ namespace HouseControl.Library.Test
         public void SaturdayItemInFuture_OnRollDay_IsUnchanged()
         {
             // Arrange
-            DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
+            var saturday = new DateTimeOffset(2020, 01, 11, 15, 32, 00,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
             ScheduleInfo info = new ScheduleInfo()
             {
@@ -84,7 +87,8 @@ namespace HouseControl.Library.Test
         public void SaturdayItemInFuture_OnRollWeekendDay_IsUnchanged()
         {
             // Arrange
-            DateTime saturday = new DateTime(2020, 01, 11, 15, 32, 00);
+            var saturday = new DateTimeOffset(2020, 01, 11, 15, 32, 00,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
 
             ScheduleInfo info = new ScheduleInfo()
@@ -104,11 +108,14 @@ namespace HouseControl.Library.Test
         public void MondayItemInPast_OnRollDay_IsTomorrow()
         {
             // Arrange
-            var currentTime = new DateTime(2015, 01, 12, 16, 35, 22);
+            var currentTime = new DateTimeOffset(2015, 01, 12, 16, 35, 22,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             SetCurrentTime(currentTime);
 
-            var monday = new DateTime(2015, 01, 12, 15, 32, 00);
-            var expectedTime = new DateTime(2015, 01, 13, 15, 32, 00);
+            var monday = new DateTimeOffset(2015, 01, 12, 15, 32, 00,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
+            var expectedTime = new DateTimeOffset(2015, 01, 13, 15, 32, 00,
+                TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
             Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
 
             ScheduleInfo info = new ScheduleInfo()
