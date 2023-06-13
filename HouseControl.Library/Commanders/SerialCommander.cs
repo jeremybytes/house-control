@@ -29,11 +29,15 @@ public class SerialCommander : ICommander
             {
                 case '0':
                     serialPort.RtsEnable = false;
+                    Thread.Sleep(10);
                     serialPort.RtsEnable = true;
+                    Thread.Sleep(10);
                     break;
                 case '1':
                     serialPort.DtrEnable = false;
+                    Thread.Sleep(10);
                     serialPort.DtrEnable = true;
+                    Thread.Sleep(10);
                     break;
                 default:
                     throw new ArgumentException(
@@ -41,6 +45,7 @@ public class SerialCommander : ICommander
             }
         }
 
+        Thread.Sleep(50);
         serialPort.RtsEnable = false;
         serialPort.DtrEnable = false;
         serialPort.Close();

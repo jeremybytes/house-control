@@ -25,7 +25,7 @@ class Program
         //controller.ScheduleOneTimeItem(currentTime.AddMinutes(3), 3, DeviceCommands.Off);
         //controller.ScheduleOneTimeItem(currentTime.AddMinutes(4), 5, DeviceCommands.Off);
 
-        //Console.WriteLine("Test Completed");
+        Console.WriteLine("Test Completed");
 
         string command = "";
         while (command != "q")
