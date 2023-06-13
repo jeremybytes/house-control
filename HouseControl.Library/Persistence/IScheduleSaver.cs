@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace HouseControl.Library;
 
-namespace HouseControl.Library
+public interface IScheduleSaver
 {
-    public interface IScheduleSaver
-    {
-        void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule);
-    }
+    void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule);
 }

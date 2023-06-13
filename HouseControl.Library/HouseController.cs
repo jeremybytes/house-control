@@ -1,112 +1,94 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
+﻿using System.Timers;
 
-namespace HouseControl.Library
+namespace HouseControl.Library;
+
+public class HouseController
 {
-    public class HouseController
+    private ICommander? commander;
+    public ICommander Commander
     {
-        private ICommander commander;
-        public ICommander Commander
-        {
-            get
-            {
-                if (commander == null)
-                    commander = new SerialCommander();
-                return commander;
-            }
-            set
-            {
-                if (commander != value)
-                    commander = value;
-            }
-        }
+        get => commander ??= new SerialCommander();
+        set => commander = value;
+    }
 
-        private Timer scheduler = new Timer(60000);
-        private Schedule schedule = new Schedule(
-            AppDomain.CurrentDomain.BaseDirectory + "ScheduleData");
+    private System.Timers.Timer scheduler = new(60000);
+    private Schedule schedule;
 
-        public HouseController()
-        {
-            scheduler.Elapsed += scheduler_Elapsed;
-            scheduler.AutoReset = true;
-            scheduler.Start();
-        }
+    public HouseController(Schedule schedule)
+    {
+        this.schedule = schedule;
 
-        private void scheduler_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            var itemsToProcess = schedule.Where(si =>
-                si.IsEnabled &&
-                si.Info.EventTime.DurationFromNow() < TimeSpan.FromSeconds(30));
+        scheduler.Elapsed += scheduler_Elapsed;
+        scheduler.AutoReset = true;
+        scheduler.Start();
+    }
 
-            foreach (var item in itemsToProcess)
-                SendCommand(item.Device, item.Command);
+    private void scheduler_Elapsed(object? sender, ElapsedEventArgs e)
+    {
+        var itemsToProcess = schedule.GetCurrentScheduleItems();
+
+        foreach (var item in itemsToProcess)
+            SendCommand(item.Device, item.Command);
 
 #if DEBUG
-            Console.Write("Schedule Items Processed: {0} - ",
-                itemsToProcess.Count().ToString());
+        Console.Write("Schedule Items Processed: {0} - ",
+            itemsToProcess.Count().ToString());
 #endif
 
-            schedule.RollSchedule();
+        schedule.RollSchedule();
 
 #if DEBUG
-            Console.WriteLine("Total Items: {0} - Active Items: {1}",
-                schedule.Count.ToString(),
-                schedule.Count(si => si.IsEnabled));
+        Console.WriteLine("Total Items: {0} - Active Items: {1}",
+            schedule.Count.ToString(),
+            schedule.Count(si => si.IsEnabled));
 #endif
-        }
+    }
 
-        public void ResetAll()
+    public void ResetAll()
+    {
+        for (int i = 1; i <= 8; i++)
         {
-            for (int i = 1; i <= 8; i++)
+            SendCommand(i, DeviceCommands.Off);
+        }
+    }
+
+    public void ScheduleOneTimeItem(DateTimeOffset time, int device,
+        DeviceCommands command)
+    {
+        var scheduleItem = new ScheduleItem(
+            device,
+            command,
+            new ScheduleInfo()
             {
-                SendCommand(i, DeviceCommands.Off);
-            }
-        }
+                EventTime = time,
+                Type = ScheduleType.Once,
+            },
+            true,
+            ""
+        );
+        schedule.Add(scheduleItem);
+    }
 
-        public void ScheduleOneTimeItem(DateTimeOffset time, int device,
-            DeviceCommands command)
-        {
-            var scheduleItem = new ScheduleItem()
-            {
-                Device = device,
-                Command = command,
-                Info = new ScheduleInfo()
-                {
-                    EventTime = time,
-                    Type = ScheduleType.Once,
-                },
-                IsEnabled = true,
-                ScheduleSet = "",
-            };
-            schedule.Add(scheduleItem);
-        }
+    public void SendCommand(int device, DeviceCommands command)
+    {
+        var message = MessageGenerator.GetMessage(device, command);
+        Commander.SendCommand(message);
+        Console.WriteLine("{0} - Device: {1}, Command: {2}",
+            DateTime.Now.ToString("G"), device.ToString(), command.ToString());
+    }
 
-        public void SendCommand(int device, DeviceCommands command)
-        {
-            var message = MessageGenerator.GetMessage(device, command);
-            Commander.SendCommand(message);
-            Console.WriteLine("{0} - Device: {1}, Command: {2}",
-                DateTime.Now.ToString("G"), device.ToString(), command.ToString());
-        }
+    public List<ScheduleItem> GetCurrentScheduleItems()
+    {
+        return schedule.Where(i => i.IsEnabled).ToList();
+    }
 
-        public List<ScheduleItem> GetCurrentScheduleItems()
-        {
-            var result = new List<ScheduleItem>();
-            foreach (var item in schedule.Where(i => i.IsEnabled))
-                result.Add(item);
-            return result;
-        }
+    public void ReloadSchedule()
+    {
+        schedule.LoadSchedule();
+    }
 
-        public void ReloadSchedule()
-        {
-            schedule.LoadSchedule();
-        }
-
-        public void SaveSchedule()
-        {
-            schedule.SaveSchedule();
-        }
+    public void SaveSchedule()
+    {
+        schedule.SaveSchedule();
     }
 }

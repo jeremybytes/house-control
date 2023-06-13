@@ -1,9 +1,7 @@
-﻿
-namespace HouseControl.Library
+﻿namespace HouseControl.Library;
+
+public enum DeviceCommands
 {
-    public enum DeviceCommands
-    {
-        On,
-        Off,
-    }
+    On,
+    Off,
 }

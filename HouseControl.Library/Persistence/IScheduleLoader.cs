@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace HouseControl.Library;
 
-namespace HouseControl.Library
+public interface IScheduleLoader
 {
-    public interface IScheduleLoader
-    {
-        IEnumerable<ScheduleItem> LoadScheduleItems(string filename);
-    }
+    IEnumerable<ScheduleItem> LoadScheduleItems(string filename);
 }

@@ -1,11 +1,9 @@
-﻿
-namespace HouseControl.Library
+﻿namespace HouseControl.Library;
+
+public enum ScheduleType
 {
-    public enum ScheduleType
-    {
-        Daily,
-        Weekday,
-        Weekend,
-        Once,
-    }
+    Daily,
+    Weekday,
+    Weekend,
+    Once,
 }

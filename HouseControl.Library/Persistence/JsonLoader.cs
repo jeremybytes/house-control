@@ -1,27 +1,21 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Text.Json;
 
-namespace HouseControl.Library
+namespace HouseControl.Library;
+
+public class JsonLoader : IScheduleLoader
 {
-    public class JsonLoader : IScheduleLoader
+    public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
     {
-        public IEnumerable<ScheduleItem> LoadScheduleItems(string filename)
+        var output = new List<ScheduleItem>();
+        filename = filename + ".json";
+
+        if (File.Exists(filename))
         {
-            var output = new List<ScheduleItem>();
-            filename = filename + ".json";
-
-            var schedule = new List<ScheduleItem>();
-            if (File.Exists(filename))
-            {
-                using (var reader = new StreamReader(filename))
-                {
-                    output = JsonConvert.DeserializeObject<List<ScheduleItem>>(
-                        reader.ReadToEnd());
-                }
-            }
-
-            return output;
+            using var reader = new StreamReader(filename);
+            output = JsonSerializer.Deserialize<List<ScheduleItem>>(
+                reader.ReadToEnd());
         }
+
+        return output!;
     }
 }

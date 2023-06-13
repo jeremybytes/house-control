@@ -1,10 +1,8 @@
-﻿
-namespace HouseControl.Library
+﻿namespace HouseControl.Library;
+
+public enum ScheduleTimeType
 {
-    public enum ScheduleTimeType
-    {
-        Standard,
-        Sunset,
-        Sunrise,
-    }
+    Standard,
+    Sunset,
+    Sunrise,
 }

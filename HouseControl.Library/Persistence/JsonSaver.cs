@@ -1,21 +1,15 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Text.Json;
 
-namespace HouseControl.Library
+namespace HouseControl.Library;
+
+public class JsonSaver : IScheduleSaver
 {
-    public class JsonSaver : IScheduleSaver
+    public void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule)
     {
-        public void SaveScheduleItems(string filename, IEnumerable<ScheduleItem> schedule)
-        {
-            filename = filename + ".json";
+        filename = filename + ".json";
+        var output = JsonSerializer.Serialize(schedule, new JsonSerializerOptions() { WriteIndented = true });
 
-            var output = JsonConvert.SerializeObject(schedule, Formatting.Indented);
-
-            using (var writer = new StreamWriter(filename, false))
-            {
-                writer.WriteLine(output);
-            }
-        }
+        using var writer = new StreamWriter(filename, false);
+        writer.WriteLine(output);
     }
 }

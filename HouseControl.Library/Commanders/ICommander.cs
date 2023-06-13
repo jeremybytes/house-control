@@ -1,8 +1,6 @@
-﻿using System;
-namespace HouseControl.Library
+﻿namespace HouseControl.Library;
+
+public interface ICommander
 {
-    public interface ICommander
-    {
-        void SendCommand(string message);
-    }
+    void SendCommand(string message);
 }

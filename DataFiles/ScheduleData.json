@@ -1,6 +1,30 @@
 [
   {
     "ScheduleSet": "Standard",
+    "Device": 3,
+    "Info": {
+      "EventTime": "2015-05-01T13:00:00",
+      "TimeType": 0,
+      "RelativeOffset": "00:00:00",
+      "Type": 0
+    },
+    "Command": 1,
+    "IsEnabled": true
+  },
+  {
+    "ScheduleSet": "Standard",
+    "Device": 3,
+    "Info": {
+      "EventTime": "2015-05-01T13:00:00",
+      "TimeType": 0,
+      "RelativeOffset": "06:00:00",
+      "Type": 0
+    },
+    "Command": 0,
+    "IsEnabled": true
+  },
+  {
+    "ScheduleSet": "Standard",
     "Device": 4,
     "Info": {
       "EventTime": "2015-05-02T00:00:00",
@@ -9,7 +33,7 @@
       "Type": 0
     },
     "Command": 1,
-    "IsEnabled": true
+    "IsEnabled": false
   },
   {
     "ScheduleSet": "Standard",
@@ -21,7 +45,7 @@
       "Type": 0
     },
     "Command": 0,
-    "IsEnabled": true
+    "IsEnabled": false
   },
   {
     "ScheduleSet": "Standard",
@@ -33,7 +57,7 @@
       "Type": 0
     },
     "Command": 0,
-    "IsEnabled": true
+    "IsEnabled": false
   },
   {
     "ScheduleSet": "Standard",
@@ -45,7 +69,7 @@
       "Type": 0
     },
     "Command": 1,
-    "IsEnabled": true
+    "IsEnabled": false
   },
   {
     "ScheduleSet": "Standard",
@@ -57,7 +81,7 @@
       "Type": 0
     },
     "Command": 0,
-    "IsEnabled": true
+    "IsEnabled": false
   },
   {
     "ScheduleSet": "Summer",

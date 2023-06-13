@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace HouseControl.Library;
 
-namespace HouseControl.Library
+public class FakeCommander : ICommander
 {
-    public class FakeCommander : ICommander
+    public void SendCommand(string message)
     {
-        public void SendCommand(string message)
-        {
-        #if DEBUG
-            Console.WriteLine(message);
-        #endif
-        }
+    #if DEBUG
+        Console.WriteLine(message);
+    #endif
     }
 }
