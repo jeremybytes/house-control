@@ -23,12 +23,12 @@ public class HouseController
         scheduler.Start();
     }
 
-    private void scheduler_Elapsed(object? sender, ElapsedEventArgs e)
+    private async void scheduler_Elapsed(object? sender, ElapsedEventArgs e)
     {
         var itemsToProcess = schedule.GetCurrentScheduleItems();
 
         foreach (var item in itemsToProcess)
-            SendCommand(item.Device, item.Command);
+            await SendCommand(item.Device, item.Command);
 
 #if DEBUG
         Console.Write("Schedule Items Processed: {0} - ",
@@ -44,11 +44,11 @@ public class HouseController
 #endif
     }
 
-    public void ResetAll()
+    public async Task ResetAll()
     {
         for (int i = 1; i <= 8; i++)
         {
-            SendCommand(i, DeviceCommands.Off);
+            await SendCommand(i, DeviceCommands.Off);
         }
     }
 
@@ -69,10 +69,10 @@ public class HouseController
         schedule.Add(scheduleItem);
     }
 
-    public void SendCommand(int device, DeviceCommands command)
+    public async Task SendCommand(int device, DeviceCommands command)
     {
         var message = MessageGenerator.GetMessage(device, command);
-        Commander.SendCommand(message);
+        await Commander.SendCommand(message);
         Console.WriteLine("{0} - Device: {1}, Command: {2}",
             DateTime.Now.ToString("G"), device.ToString(), command.ToString());
     }

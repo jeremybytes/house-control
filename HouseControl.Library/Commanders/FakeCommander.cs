@@ -2,10 +2,11 @@
 
 public class FakeCommander : ICommander
 {
-    public void SendCommand(string message)
+    public Task SendCommand(string message)
     {
     #if DEBUG
         Console.WriteLine(message);
-    #endif
+#endif
+        return Task.CompletedTask;
     }
 }

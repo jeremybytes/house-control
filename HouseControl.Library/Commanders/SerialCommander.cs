@@ -17,7 +17,7 @@ public class SerialCommander : ICommander
         serialPort = new SerialPort(port, baud, parity, databits, stopbits);
     }
 
-    public void SendCommand(string message)
+    public async Task SendCommand(string message)
     {
         serialPort.Open();
         serialPort.DtrEnable = true;
@@ -29,15 +29,15 @@ public class SerialCommander : ICommander
             {
                 case '0':
                     serialPort.RtsEnable = false;
-                    Thread.Sleep(10);
+                    await Task.Delay(10);
                     serialPort.RtsEnable = true;
-                    Thread.Sleep(10);
+                    await Task.Delay(10);
                     break;
                 case '1':
                     serialPort.DtrEnable = false;
-                    Thread.Sleep(10);
+                    await Task.Delay(10);
                     serialPort.DtrEnable = true;
-                    Thread.Sleep(10);
+                    await Task.Delay(10);
                     break;
                 default:
                     throw new ArgumentException(
@@ -45,7 +45,7 @@ public class SerialCommander : ICommander
             }
         }
 
-        Thread.Sleep(50);
+        await Task.Delay(50);
         serialPort.RtsEnable = false;
         serialPort.DtrEnable = false;
         serialPort.Close();

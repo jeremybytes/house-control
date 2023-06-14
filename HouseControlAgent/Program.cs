@@ -6,7 +6,7 @@ namespace HouseControlAgent;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         Console.WriteLine("Starting Test");
 
@@ -16,8 +16,9 @@ class Program
         // Uncomment this section to ensure that the hardware
         // and scheduling is working as expected.
 
-        //controller.SendCommand(5, DeviceCommands.On);
-        //controller.SendCommand(5, DeviceCommands.Off);
+        //await controller.SendCommand(5, DeviceCommands.On);
+        //await controller.SendCommand(5, DeviceCommands.Off);
+        await Task.Delay(1); // placeholder to keep Main signature when test code is not used
 
         //var currentTime = DateTime.Now;
         //controller.ScheduleOneTimeItem(currentTime.AddMinutes(1), 3, DeviceCommands.On);

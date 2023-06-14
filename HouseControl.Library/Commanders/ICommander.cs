@@ -2,5 +2,5 @@
 
 public interface ICommander
 {
-    void SendCommand(string message);
+    Task SendCommand(string message);
 }
