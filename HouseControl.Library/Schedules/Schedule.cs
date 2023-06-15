@@ -35,6 +35,13 @@ public class Schedule : List<ScheduleItem>
     {
         this.Clear();
         this.AddRange(Loader.LoadScheduleItems(filename));
+
+        // update loaded schedule dates to today
+        DateTimeOffset today = ScheduleHelper.Today();
+        foreach (var item in this)
+        {
+            item.Info.EventTime = today + item.Info.EventTime.TimeOfDay;
+        }
         RollSchedule();
     }
 
