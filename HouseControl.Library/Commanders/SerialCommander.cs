@@ -17,8 +17,9 @@ public class SerialCommander : ICommander
         serialPort = new SerialPort(port, baud, parity, databits, stopbits);
     }
 
-    public async Task SendCommand(string message)
+    public async Task SendCommand(int deviceNumber, DeviceCommand command)
     {
+        string message = MessageGenerator.GetMessage(deviceNumber, command);
         serialPort.Open();
         serialPort.DtrEnable = true;
         serialPort.RtsEnable = true;

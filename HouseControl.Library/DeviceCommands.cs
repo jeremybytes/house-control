@@ -1,6 +1,6 @@
 ﻿namespace HouseControl.Library;
 
-public enum DeviceCommands
+public enum DeviceCommand
 {
     On,
     Off,

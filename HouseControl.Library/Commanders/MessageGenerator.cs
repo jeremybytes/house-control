@@ -35,7 +35,7 @@ internal static class MessageGenerator
     //private static string bright = "10001000";
     //private static string dim = "10011000";
 
-    public static string GetMessage(int deviceNumber, DeviceCommands command)
+    public static string GetMessage(int deviceNumber, DeviceCommand command)
     {
         if (deviceNumber < 1 || deviceNumber > 8)
             throw new ArgumentException("Invalid Device Requested");
@@ -44,8 +44,8 @@ internal static class MessageGenerator
 
         message += command switch
         {
-            DeviceCommands.On => onCommands[deviceNumber],
-            DeviceCommands.Off => offCommands[deviceNumber],
+            DeviceCommand.On => onCommands[deviceNumber],
+            DeviceCommand.Off => offCommands[deviceNumber],
             _ => throw new ArgumentException("Invalid Command Requested"),
         };
         message += footer;

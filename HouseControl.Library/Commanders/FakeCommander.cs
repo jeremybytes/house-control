@@ -2,10 +2,10 @@
 
 public class FakeCommander : ICommander
 {
-    public Task SendCommand(string message)
+    public Task SendCommand(int deviceNumber, DeviceCommand command)
     {
 #if DEBUG
-        Console.WriteLine(message);
+        Console.WriteLine($"Device {deviceNumber}: {command}");
 #endif
         return Task.CompletedTask;
     }

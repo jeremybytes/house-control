@@ -16,15 +16,15 @@ class Program
         // Uncomment this section to ensure that the hardware
         // and scheduling is working as expected.
 
-        //await controller.SendCommand(5, DeviceCommands.On);
-        //await controller.SendCommand(5, DeviceCommands.Off);
+        //await controller.SendCommand(5, DeviceCommand.On);
+        //await controller.SendCommand(5, DeviceCommand.Off);
         await Task.Delay(1); // placeholder to keep Main signature when test code is not used
 
         //var currentTime = DateTime.Now;
-        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(1), 3, DeviceCommands.On);
-        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(2), 5, DeviceCommands.On);
-        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(3), 3, DeviceCommands.Off);
-        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(4), 5, DeviceCommands.Off);
+        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(1), 3, DeviceCommand.On);
+        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(2), 5, DeviceCommand.On);
+        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(3), 3, DeviceCommand.Off);
+        //controller.ScheduleOneTimeItem(currentTime.AddMinutes(4), 5, DeviceCommand.Off);
 
         Console.WriteLine("Test Completed");
 
@@ -37,12 +37,7 @@ class Program
                 var schedule = controller.GetCurrentScheduleItems();
                 foreach (var item in schedule)
                 {
-                    Console.WriteLine("{0} - {1} ({2}), Device: {3}, Command: {4}",
-                        item.Info.EventTime.ToString("G"),
-                        item.Info.TimeType.ToString(),
-                        item.Info.RelativeOffset.ToString(),
-                        item.Device.ToString(),
-                        item.Command.ToString());
+                    Console.WriteLine($"{item.Info.EventTime:G} - {item.Info.TimeType} ({item.Info.RelativeOffset}), Device: {item.Device}, Command: {item.Command}");
                 }
             }
             if (command == "r")
@@ -80,5 +75,4 @@ class Program
 
         return controller;
     }
-
 }

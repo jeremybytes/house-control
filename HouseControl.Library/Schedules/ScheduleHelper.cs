@@ -43,62 +43,64 @@ public class ScheduleHelper
         return checkTime < TimeProvider.Now();
     }
 
+    public static bool IsInFuture(DateTimeOffset checkTime)
+    {
+        return checkTime > TimeProvider.Now();
+    }
+
     public DateTimeOffset RollForwardToNextDay(ScheduleInfo info)
     {
-        if (IsInPast(info.EventTime))
+        if (IsInFuture(info.EventTime))
+            return info.EventTime;
+
+        var nextDay = Today().AddDays(1);
+        return info.TimeType switch
         {
-            var nextDay = Today().AddDays(1);
-            return info.TimeType switch
-            {
-                ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
-                ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
-                ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
-                _ => info.EventTime
-            };
-        }
-        return info.EventTime;
+            ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
+            ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
+            ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
+            _ => info.EventTime
+        };
     }
 
     public DateTimeOffset RollForwardToNextWeekdayDay(ScheduleInfo info)
     {
-        if (IsInPast(info.EventTime))
-        {
-            var nextDay = Today() + TimeSpan.FromDays(1);
-            while (nextDay.DayOfWeek == DayOfWeek.Saturday
-                || nextDay.DayOfWeek == DayOfWeek.Sunday)
-            {
-                nextDay = nextDay.AddDays(1);
-            }
+        if (IsInFuture(info.EventTime))
+            return info.EventTime;
 
-            return info.TimeType switch
-            {
-                ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
-                ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
-                ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
-                _ => info.EventTime
-            };
+        var nextDay = Today() + TimeSpan.FromDays(1);
+        while (nextDay.DayOfWeek == DayOfWeek.Saturday
+            || nextDay.DayOfWeek == DayOfWeek.Sunday)
+        {
+            nextDay = nextDay.AddDays(1);
         }
-        return info.EventTime;
+
+        return info.TimeType switch
+        {
+            ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
+            ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
+            ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
+            _ => info.EventTime
+        };
     }
 
     public DateTimeOffset RollForwardToNextWeekendDay(ScheduleInfo info)
     {
-        if (IsInPast(info.EventTime))
+        if (IsInFuture(info.EventTime))
+            return info.EventTime;
+
+        var nextDay = Today().AddDays(1);
+        while (nextDay.DayOfWeek != DayOfWeek.Saturday
+            && nextDay.DayOfWeek != DayOfWeek.Sunday)
         {
-            var nextDay = Today().AddDays(1);
-            while (nextDay.DayOfWeek != DayOfWeek.Saturday
-                && nextDay.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextDay = nextDay.AddDays(1);
-            }
-            return info.TimeType switch
-            {
-                ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
-                ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
-                ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
-                _ => info.EventTime
-            };
+            nextDay = nextDay.AddDays(1);
         }
-        return info.EventTime;
+        return info.TimeType switch
+        {
+            ScheduleTimeType.Standard => nextDay + info.EventTime.TimeOfDay + info.RelativeOffset,
+            ScheduleTimeType.Sunset => SunsetProvider.GetSunset(nextDay) + info.RelativeOffset,
+            ScheduleTimeType.Sunrise => SunsetProvider.GetSunrise(nextDay) + info.RelativeOffset,
+            _ => info.EventTime
+        };
     }
 }

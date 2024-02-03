@@ -1,6 +1,6 @@
 ﻿namespace HouseControl.Library;
 
-public record ScheduleItem(int Device, DeviceCommands Command, ScheduleInfo Info, 
+public record ScheduleItem(int Device, DeviceCommand Command, ScheduleInfo Info, 
     bool IsEnabled, string ScheduleSet);
 
 public class ScheduleInfo

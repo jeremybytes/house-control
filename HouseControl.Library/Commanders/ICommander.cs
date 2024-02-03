@@ -2,5 +2,5 @@
 
 public interface ICommander
 {
-    Task SendCommand(string message);
+    Task SendCommand(int deviceNumber, DeviceCommand command);
 }

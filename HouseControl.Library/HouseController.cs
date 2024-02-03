@@ -31,16 +31,13 @@ public class HouseController
             await SendCommand(item.Device, item.Command);
 
 #if DEBUG
-        Console.Write("Schedule Items Processed: {0} - ",
-            itemsToProcess.Count().ToString());
+        Console.Write($"Schedule Items Processed: {itemsToProcess.Count()} - ");
 #endif
 
         schedule.RollSchedule();
 
 #if DEBUG
-        Console.WriteLine("Total Items: {0} - Active Items: {1}",
-            schedule.Count.ToString(),
-            schedule.Count(si => si.IsEnabled));
+        Console.WriteLine($"Total Items: {schedule.Count} - Active Items: {schedule.Count(si => si.IsEnabled).ToString()}");
 #endif
     }
 
@@ -48,12 +45,12 @@ public class HouseController
     {
         for (int i = 1; i <= 8; i++)
         {
-            await SendCommand(i, DeviceCommands.Off);
+            await SendCommand(i, DeviceCommand.Off);
         }
     }
 
     public void ScheduleOneTimeItem(DateTimeOffset time, int device,
-        DeviceCommands command)
+        DeviceCommand command)
     {
         var scheduleItem = new ScheduleItem(
             device,
@@ -69,12 +66,10 @@ public class HouseController
         schedule.Add(scheduleItem);
     }
 
-    public async Task SendCommand(int device, DeviceCommands command)
+    public async Task SendCommand(int device, DeviceCommand command)
     {
-        var message = MessageGenerator.GetMessage(device, command);
-        await Commander.SendCommand(message);
-        Console.WriteLine("{0} - Device: {1}, Command: {2}",
-            DateTime.Now.ToString("G"), device.ToString(), command.ToString());
+        await Commander.SendCommand(device, command);
+        Console.WriteLine($"{DateTime.Now:G} - Device: {device}, Command: {command}");
     }
 
     public List<ScheduleItem> GetCurrentScheduleItems()

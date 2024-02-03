@@ -68,7 +68,7 @@ public class ScheduleTests
         var originalCount = schedule.Count;
         var scheduleItem = new ScheduleItem(
             1,
-            DeviceCommands.On,
+            DeviceCommand.On,
             new ScheduleInfo()
             {
                 EventTime = DateTimeOffset.Now.AddMinutes(-2),
@@ -96,7 +96,7 @@ public class ScheduleTests
         var originalCount = schedule.Count;
         var scheduleItem = new ScheduleItem(
             1,
-            DeviceCommands.On,
+            DeviceCommand.On,
             new ScheduleInfo()
             {
                 EventTime = DateTimeOffset.Now.AddMinutes(2),
