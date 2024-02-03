@@ -24,6 +24,7 @@ public class ScheduleHelperTests
     public void MondayItemInFuture_OnRollDay_IsUnchanged()
     {
         // Arrange
+        SetCurrentTime(new(2023, 11, 11, 12, 13, 14, TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now())));
         var monday = new DateTimeOffset(2024, 01, 01, 15, 32, 00,
             TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
         Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
@@ -45,6 +46,7 @@ public class ScheduleHelperTests
     public void MondayItemInFuture_OnRollWeekdayDay_IsUnchanged()
     {
         // Arrange
+        SetCurrentTime(new(2023, 11, 11, 12, 13, 14, TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now())));
         var monday = new DateTimeOffset(2024, 01, 01, 15, 32, 00,
             TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
         Assert.AreEqual(DayOfWeek.Monday, monday.DayOfWeek);
@@ -67,6 +69,7 @@ public class ScheduleHelperTests
     public void SaturdayItemInFuture_OnRollDay_IsUnchanged()
     {
         // Arrange
+        SetCurrentTime(new(2023, 11, 11, 12, 13, 14, TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now())));
         var saturday = new DateTimeOffset(2024, 01, 06, 15, 32, 00,
             TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
         Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
@@ -88,6 +91,7 @@ public class ScheduleHelperTests
     public void SaturdayItemInFuture_OnRollWeekendDay_IsUnchanged()
     {
         // Arrange
+        SetCurrentTime(new(2023, 11, 11, 12, 13, 14, TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now())));
         var saturday = new DateTimeOffset(2024, 01, 06, 15, 32, 00,
             TimeZoneInfo.Local.GetUtcOffset(ScheduleHelper.Now()));
         Assert.AreEqual(DayOfWeek.Saturday, saturday.DayOfWeek);
